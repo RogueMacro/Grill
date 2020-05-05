@@ -1,0 +1,12 @@
+{
+  "Package1":
+  {
+    "Url": "https://github.com/ilikemeat/package1"
+    "Version": "1.4.2"
+  },
+  "Package2":
+  {
+    "Url": "https://github.com/idontlikemeat/package2"
+    "Version": "5.2.3"
+  }
+}

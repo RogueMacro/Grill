@@ -1,5 +1,4 @@
-{
-	"Packages": [{
+[{
 			"Name": "Package1",
 			"Url": "https://github.com/ilikemeat/package1",
 			"Version": "1.4.2"
@@ -10,4 +9,4 @@
 			"Version": "5.2.3"
 		}
 	]
-}
+

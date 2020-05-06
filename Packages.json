@@ -2,8 +2,8 @@
    "Packages":[
       {
          "Name":"SteakLogger",
-         "Author":"RogueMacro",
-         "Contact":"RogueMacro#8595",
+         "Description":"A logging library for beef",
+         "Author":"RogueMacro#8595",
          "Version":"1.0.0"
       }
    ]

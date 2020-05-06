@@ -2,8 +2,7 @@
    "Packages":[
       {
          "Name":"SteakLogger",
-         "Url":"https://github.com/roguemacro/steaklogger/",
-         "Version":"1.0.0"
+         "Url":"https://github.com/roguemacro/steaklogger/"
       }
    ]
 }

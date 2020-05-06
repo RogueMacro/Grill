@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "bpm": {
+      "commandName": "Project"
+    },
+    "test install": {
+      "commandName": "Project",
+      "commandLineArgs": "install steaklogger"
+    }
+  }
+}

@@ -1,9 +1,9 @@
 {
    "Packages":[
       {
-         "Name":"small-test-repo",
-         "Url":"https://github.com/rtyley/small-test-repo/",
-         "Version":"1.4.2"
+         "Name":"SteakLogger",
+         "Url":"https://github.com/roguemacro/steaklogger/",
+         "Version":"1.0.0"
       }
    ]
 }

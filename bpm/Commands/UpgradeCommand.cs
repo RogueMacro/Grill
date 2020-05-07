@@ -2,7 +2,6 @@
 using bpm.Packages;
 using bpm.Utilities;
 using ServiceStack;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace bpm.Commands
@@ -13,7 +12,7 @@ namespace bpm.Commands
         public bool RequiresArguments => true;
         public string Usage => "upgrade <package> [version] [-global]";
 
-        public void Execute(IEnumerable<string> args)
+        public void Execute(string[] args)
         {
             string packageName = CommandTool.GetValueArgumentOrIndex("package", 0, ref args);
             bool isGlobal = CommandTool.GetArgument("-global", ref args);

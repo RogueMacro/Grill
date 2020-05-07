@@ -3,7 +3,6 @@ using bpm.Networking;
 using bpm.Packages;
 using bpm.Utilities;
 using ServiceStack;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -15,7 +14,7 @@ namespace bpm.Commands
         public bool RequiresArguments => true;
         public string Usage => "install <package> [-global] [-force]";
 
-        public void Execute(IEnumerable<string> args)
+        public void Execute(string[] args)
         {
             string packageName = CommandTool.GetValueArgumentOrIndex("package", 0, ref args);
 

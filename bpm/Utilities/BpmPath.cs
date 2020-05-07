@@ -73,23 +73,23 @@ namespace bpm.Utilities
             return false;
         }
 
-        //public static void DeleteDirectory(string targetDir)
-        //{
-        //    File.SetAttributes(targetDir, FileAttributes.Normal);
+        public static void DeleteDirectory(string targetDir)
+        {
+            File.SetAttributes(targetDir, FileAttributes.Normal);
 
-        //    var files = Directory.GetFiles(targetDir);
-        //    var dirs = Directory.GetDirectories(targetDir);
+            var files = Directory.GetFiles(targetDir);
+            var dirs = Directory.GetDirectories(targetDir);
 
-        //    foreach (string file in files)
-        //    {
-        //        File.SetAttributes(file, FileAttributes.Normal);
-        //        File.Delete(file);
-        //    }
+            foreach (string file in files)
+            {
+                File.SetAttributes(file, FileAttributes.Normal);
+                File.Delete(file);
+            }
 
-        //    foreach (string dir in dirs)
-        //        DeleteDirectory(dir);
+            foreach (string dir in dirs)
+                DeleteDirectory(dir);
 
-        //    Directory.Delete(targetDir, false);
-        //}
+            Directory.Delete(targetDir, false);
+        }
     }
 }

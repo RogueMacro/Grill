@@ -27,8 +27,7 @@ namespace bpm.Networking
             {
                 if (force || Input.GetChoice("Package is already installed. Reinstall?"))
                 {
-                    //BpmPath.DeleteDirectory(CloneTo);
-                    Directory.Delete(CloneTo);
+                    BpmPath.DeleteDirectory(CloneTo);
                     Clone();
                 }
                 else

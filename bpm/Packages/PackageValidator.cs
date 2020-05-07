@@ -34,8 +34,7 @@ namespace bpm.Packages
 
         private void InvalidRepo(string info = null)
         {
-            //BpmPath.DeleteDirectory(Path);
-            Directory.Delete(Path, true);
+            BpmPath.DeleteDirectory(Path);
             string text = "Package is not a valid beef project" + info != null ? $" ({info})" : "";
             Log.Fatal(text, ExitCode.INVALID_REPO);
         }

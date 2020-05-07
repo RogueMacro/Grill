@@ -43,7 +43,6 @@ namespace bpm
                 }
             }
 
-            Console.Read();
             Environment.Exit((int) Log.LastExitCode);
         }
 

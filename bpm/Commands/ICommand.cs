@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace bpm.Commands
+﻿namespace bpm.Commands
 {
     public interface ICommand
     {
@@ -8,6 +6,6 @@ namespace bpm.Commands
         public bool RequiresArguments { get; }
         public string Usage { get; }
 
-        public void Execute(IEnumerable<string> args);
+        public void Execute(string[] args);
     }
 }

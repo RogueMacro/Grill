@@ -14,6 +14,10 @@
     "add package": {
       "commandName": "Project",
       "commandLineArgs": "add SteakLogger TestBeefProject"
+    },
+    "add copy": {
+      "commandName": "Project",
+      "commandLineArgs": "add SteakLogger TestBeefProject -copy"
     }
   }
 }

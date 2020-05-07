@@ -8,14 +8,19 @@ namespace bpm.Commands
 {
     public static class CommandTool
     {
-        public static bool GetArgument(string arg, ref IEnumerable<string> args, bool removeArg = true)
+        public static bool GetArgument(string arg, ref string[] args, bool removeArg = true)
         {
             for (int i = 0; i < args.Count(); i++)
             {
                 if (args.ElementAt(i) == arg)
                 {
                     if (removeArg)
-                        args = args.Skip(i).ToArray();
+                    {
+                        var l = args.ToList();
+                        l.Remove(arg);
+                        args = l.ToArray();
+                    }
+
                     return true;
                 }
             }
@@ -23,7 +28,7 @@ namespace bpm.Commands
             return false;
         }
 
-        public static string GetArgument(int index, ref IEnumerable<string> args, bool removeArg = true)
+        public static string GetArgument(int index, ref string[] args, bool removeArg = true)
         {
             if (args.Count() > index)
             {
@@ -42,7 +47,7 @@ namespace bpm.Commands
             return null;
         }
 
-        public static string GetValueArgumentOrIndex(string name, int index, ref IEnumerable<string> args, bool removeArg = true)
+        public static string GetValueArgumentOrIndex(string name, int index, ref string[] args, bool removeArg = true)
         {
             string argValue;
             if ((argValue = GetValueArgument(name, ref args)) != null)
@@ -50,7 +55,7 @@ namespace bpm.Commands
             return GetArgument(index, ref args);
         }
 
-        public static string GetValueArgument(string name, ref IEnumerable<string> args, bool removeArg = true)
+        public static string GetValueArgument(string name, ref string[] args, bool removeArg = true)
         {
             var argList = args.ToList();
             foreach (var arg in argList)

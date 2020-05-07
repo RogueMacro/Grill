@@ -1,6 +1,8 @@
 # bpm
 Beef package manager
 
+### This readme is still in the works
+
 ## How to use
 
 You can run `bpm <command> [arguments]` from the command line to run a specific command.

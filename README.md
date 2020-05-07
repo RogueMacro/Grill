@@ -1,7 +1,7 @@
 # bpm
 Beef package manager
 
-### This readme is still in the works
+### Note: This readme is still in the works
 
 ## How to use
 
@@ -20,12 +20,18 @@ All other arguments (both required and optional) are value arguments. Their valu
 
 ## Commands
 
-###`bpm install <package> [-global] [-force]`
+`bpm install <package> [-global] [-force]`
 
 Clones a package repository to your computer.
 
-- `<package>`: The name of the package
-- `-global`: Installs the package for all users.
-- `-force`: Installs the package without any prompts.
+- package: The name of the package
+- global: Installs the package for all users.
+- force: Installs the package without any prompts.
 
 `bpm upgrade <package> [version] [-global]`
+
+Installs a new version of the package.
+
+- package: The name of the package
+- version: The new version to install. (Not supported yet)
+- global: Installs the package for all users.

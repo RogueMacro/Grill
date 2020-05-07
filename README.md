@@ -26,21 +26,21 @@ Clones a package repository to your computer.
 - **global**: Installs the package for all users.
 - **force**: Installs the package without any prompts.
 
-#### `bpm upgrade <package> [version] [-global]`
+`bpm upgrade <package> [version] [-global]`
 
 Installs a new version of the package.
 
-- package: The name of the package
-- version: The new version to install. (Not supported yet)
-- global: Installs the package for all users.
+- **package**: The name of the package
+- **version**: The new version to install. (Not supported yet)
+- **global**: Installs the package for all users.
 
-#### `bpm add <package> [path] [-global] [-copy]`
+`bpm add <package> [path] [-global] [-copy]`
 
 Adds the package to a workspace. 
 Note: The package will be locked in that workspace to prevent unintentional changes. You can use `-copy` the make a unlocked copy of the package just within that workspace, or unlock it inside the IDE to edit the installed package.
 Using `-copy` will copy the package to `<ProjectName>/packages/<PackageName>`
 
-- package: The name of the package
-- path: The path to the workspace. This defaults to the current directory.
-- global: Installs the global package.
-- copy: Makes a copy of the package within that workspace.
+- **package**: The name of the package
+- **path**: The path to the workspace. This defaults to the current directory.
+- **global**: Installs the global package.
+- **copy**: Makes a copy of the package within that workspace.

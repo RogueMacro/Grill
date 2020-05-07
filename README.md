@@ -11,7 +11,8 @@ In the shell you can run different commands, i.e. `bpm> install <package>`.
 ## Arguments
 
 Arguments prefixed with a `-` (dash) are flag arguments, which doesn't have a value. Flag arguments come last after value arguments.<br>
-All other arguments (both required and optional) are value arguments. Their value can be passed at the index like shown in their syntax, or by doing `<argument>=<value>` somewhere after indexed arguments i.e. `bpm install package=<package name>`.
+
+All other arguments (both required and optional) are value arguments. Their value can be passed at the index like shown in their syntax, or by doing `<argument>=<value>` somewhere after indexed arguments i.e. `bpm install package=<PackageName>`.
 
 `<argument>` means the argument is required.
 `[argument]` means the argument is optional.

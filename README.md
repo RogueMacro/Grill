@@ -3,7 +3,7 @@ Beef package manager
 
 ## Commands
 
-`bpm install <package> [-global] [-force]`
+###`bpm install <package> [-global] [-force]`
 
 Clones a package repository to your computer.
 

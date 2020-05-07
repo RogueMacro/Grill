@@ -3,6 +3,7 @@ using bpm.Packages;
 using bpm.Utilities;
 using LibGit2Sharp;
 using System;
+using System.IO;
 
 namespace bpm.Networking
 {
@@ -26,7 +27,8 @@ namespace bpm.Networking
             {
                 if (force || Input.GetChoice("Package is already installed. Reinstall?"))
                 {
-                    BpmPath.DeleteDirectory(CloneTo);
+                    //BpmPath.DeleteDirectory(CloneTo);
+                    Directory.Delete(CloneTo);
                     Clone();
                 }
                 else

@@ -1,0 +1,13 @@
+FileVersion = 1
+Locked = ["SteakLogger"]
+
+[Projects]
+
+[Projects.TestBeefProject]
+Path = "."
+
+[Projects.SteakLogger]
+Path = "C:\\Users\\Willi\\AppData\\Roaming\\bpm\\packages\\SteakLogger"
+
+[Workspace]
+StartupProject = "TestBeefProject"

@@ -43,6 +43,7 @@ namespace bpm
                 }
             }
 
+            Console.Read();
             Environment.Exit((int) Log.LastExitCode);
         }
 
@@ -54,11 +55,18 @@ namespace bpm
             try
             {
                 command = Commands.Single(c =>
-                    string.Compare(c.GetType().Name.Replace("Command", ""), commandName, StringComparison.OrdinalIgnoreCase) == 0);
+                    string.Compare(c.GetType().Name.Replace("Command", ""), commandName, StringComparison.OrdinalIgnoreCase) == 0 ||
+                    c.Aliases.Contains(commandName));
             }
             catch (InvalidOperationException)
             {
                 Log.Error($"{args[0].ToLower()} is not a command");
+                return;
+            }
+
+            if (command.RequiresArguments && args.Length == 0)
+            {
+                Log.Usage(command.Usage);
                 return;
             }
 

@@ -1,33 +1,33 @@
 ﻿using bpm.Logging;
+using ServiceStack;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace bpm.Commands
 {
     public static class CommandTool
     {
-        public static bool GetArgument(string arg, ref string[] args, bool removeArg = true)
+        public static bool GetArgument(string arg, ref IEnumerable<string> args, bool removeArg = true)
         {
-            if (args.Contains(arg))
+            for (int i = 0; i < args.Count(); i++)
             {
-                if (removeArg)
+                if (args.ElementAt(i) == arg)
                 {
-                    var argList = args.ToList();
-                    argList.Remove(arg);
-                    args = argList.ToArray();
+                    if (removeArg)
+                        args = args.Skip(i).ToArray();
+                    return true;
                 }
-
-                return true;
             }
 
             return false;
         }
 
-        public static string GetArgument(int index, ref string[] args, bool removeArg = true)
+        public static string GetArgument(int index, ref IEnumerable<string> args, bool removeArg = true)
         {
-            if (args.Length > index)
+            if (args.Count() > index)
             {
-                var arg = args[index];
+                var arg = args.ElementAt(index);
 
                 if (removeArg)
                 {
@@ -42,16 +42,15 @@ namespace bpm.Commands
             return null;
         }
 
-        public static string GetArgumentValueOrIndex(string name, int index, ref string[] args, bool removeArg = true)
+        public static string GetValueArgumentOrIndex(string name, int index, ref IEnumerable<string> args, bool removeArg = true)
         {
             string argValue;
-            if ((argValue = GetArgumentValue(name, ref args)) != null)
+            if ((argValue = GetValueArgument(name, ref args)) != null)
                 return argValue;
-
             return GetArgument(index, ref args);
         }
 
-        public static string GetArgumentValue(string name, ref string[] args, bool removeArg = true)
+        public static string GetValueArgument(string name, ref IEnumerable<string> args, bool removeArg = true)
         {
             var argList = args.ToList();
             foreach (var arg in argList)

@@ -73,51 +73,23 @@ namespace bpm.Utilities
             return false;
         }
 
-        public static void DeleteDirectory(string targetDir)
-        {
-            File.SetAttributes(targetDir, FileAttributes.Normal);
+        //public static void DeleteDirectory(string targetDir)
+        //{
+        //    File.SetAttributes(targetDir, FileAttributes.Normal);
 
-            string[] files = Directory.GetFiles(targetDir);
-            string[] dirs = Directory.GetDirectories(targetDir);
+        //    var files = Directory.GetFiles(targetDir);
+        //    var dirs = Directory.GetDirectories(targetDir);
 
-            foreach (string file in files)
-            {
-                File.SetAttributes(file, FileAttributes.Normal);
-                File.Delete(file);
-            }
+        //    foreach (string file in files)
+        //    {
+        //        File.SetAttributes(file, FileAttributes.Normal);
+        //        File.Delete(file);
+        //    }
 
-            foreach (string dir in dirs)
-                DeleteDirectory(dir);
+        //    foreach (string dir in dirs)
+        //        DeleteDirectory(dir);
 
-            Directory.Delete(targetDir, false);
-        }
-
-        public static bool HasReadAccess(string path)
-        {
-            try
-            {
-                File.ReadAllText(path);
-                return true;
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return false;
-            }
-        }
-
-        public static bool HasWriteAccess(string path)
-        {
-            try
-            {
-                path = new DirectoryInfo(path).FullName;
-                File.Create(Path.Combine(path, "tempfile_blfasdfdasgdfs.txt")).Close();
-                File.Delete(Path.Combine(path, "tempfile_blfasdfdasgdfs.txt"));
-                return true;
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return false;
-            }
-        }
+        //    Directory.Delete(targetDir, false);
+        //}
     }
 }

@@ -3,6 +3,7 @@ using bpm.Networking;
 using bpm.Packages;
 using bpm.Utilities;
 using ServiceStack;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -10,20 +11,18 @@ namespace bpm.Commands
 {
     public class InstallCommand : ICommand
     {
-        public void Execute(string[] args)
-        {
-            if (args.Length == 0)
-            {
-                Log.Usage("install <package> [-global]");
-                return;
-            }
+        public string[] Aliases => new string[] { };
+        public bool RequiresArguments => true;
+        public string Usage => "install <package> [-global] [-force]";
 
-            string packageName = CommandTool.GetArgumentValueOrIndex("package", 0, ref args);
+        public void Execute(IEnumerable<string> args)
+        {
+            string packageName = CommandTool.GetValueArgumentOrIndex("package", 0, ref args);
 
             bool isGlobal = CommandTool.GetArgument("-global", ref args);
             bool isForceInstall = CommandTool.GetArgument("-force", ref args);
 
-            if (args.Length != 0)
+            if (args.Count() != 0)
             {
                 Log.Fatal("Invalid arguments: " + args.Join(", "), ExitCode.INVALID_ARGUMENTS);
                 return;

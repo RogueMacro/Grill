@@ -31,14 +31,14 @@ namespace bpm
             {
                 Console.WriteLine("Type 'exit' to stop.");
 
-                Console.Write("> ");
+                Console.Write("bpm> ");
                 string line = Console.ReadLine();
                 while (line != "exit")
                 {
                     if (!line.IsNullOrEmpty())
                         RunCommand(line.Split());
 
-                    Console.Write("> ");
+                    Console.Write("bpm> ");
                     line = Console.ReadLine();
                 }
             }

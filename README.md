@@ -22,9 +22,9 @@ All other arguments (both required and optional) are value arguments. Their valu
 
 Clones a package repository to your computer.
 
-- package: The name of the package
-- global: Installs the package for all users.
-- force: Installs the package without any prompts.
+- **package**: The name of the package
+- **global**: Installs the package for all users.
+- **force**: Installs the package without any prompts.
 
 #### `bpm upgrade <package> [version] [-global]`
 

@@ -3,9 +3,13 @@
     "bpm": {
       "commandName": "Project"
     },
-    "test install": {
+    "install": {
       "commandName": "Project",
       "commandLineArgs": "install steaklogger"
+    },
+    "upgrade": {
+      "commandName": "Project",
+      "commandLineArgs": "upgrade steaklogger"
     }
   }
 }

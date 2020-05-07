@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace bpm
+﻿namespace bpm.Commands
 {
     public interface ICommand
     {

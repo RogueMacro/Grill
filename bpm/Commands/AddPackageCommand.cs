@@ -20,7 +20,8 @@ namespace bpm.Commands
             var packageName = CommandTool.GetValueArgumentOrIndex("package", 0, ref args);
             var projectPath = CommandTool.GetValueArgumentOrIndex("path", 0, ref args) ?? "";
             bool isGlobal = CommandTool.GetArgument("-global", ref args);
-            Console.WriteLine("ProjectPath: " + projectPath);
+            bool isCopy = CommandTool.GetArgument("-copy", ref args);
+            
             var tomlPath = Path.Combine(projectPath, "BeefSpace.toml");
 
             if (args.Count() != 0)
@@ -33,7 +34,7 @@ namespace bpm.Commands
 
             var projects = new Dictionary<string, Dictionary<string, object>>();
             bool workspaceHasProjects = toml.ContainsKey("Projects");
-            Console.WriteLine("workspaceHasProjects: " + workspaceHasProjects);
+            
             if (workspaceHasProjects)
                 projects = toml["Projects"].Get<Dictionary<string, Dictionary<string, object>>>();
 

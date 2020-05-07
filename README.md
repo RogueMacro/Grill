@@ -13,12 +13,12 @@ In the shell you can run different commands, i.e. `bpm> install <package>`.
 Arguments prefixed with a `-` (dash) are flag arguments, which doesn't have a value. Flag arguments come last after value arguments.
 All other arguments (both required and optional) are value arguments. Their value can be passed at the index like shown in their syntax, or by doing `<argument>=<value>` somewhere after indexed arguments i.e. `bpm install package=<package name>`.
 
-# `<argument>` means the argument is required.
+`<argument>` means the argument is required.
 `[argument]` means the argument is optional.
 
 ## Commands
 
-`bpm install <package> [-global] [-force]`
+### `bpm install <package> [-global] [-force]`
 
 Clones a package repository to your computer.
 
@@ -26,7 +26,7 @@ Clones a package repository to your computer.
 - global: Installs the package for all users.
 - force: Installs the package without any prompts.
 
-`bpm upgrade <package> [version] [-global]`
+### `bpm upgrade <package> [version] [-global]`
 
 Installs a new version of the package.
 
@@ -34,7 +34,7 @@ Installs a new version of the package.
 - version: The new version to install. (Not supported yet)
 - global: Installs the package for all users.
 
-`bpm add <package> [path] [-global] [-copy]`
+### `bpm add <package> [path] [-global] [-copy]`
 
 Adds the package to a workspace. 
 Note: The package will be locked in that workspace to prevent unintentional changes. You can use `-copy` the make a unlocked copy of the package just within that workspace, or unlock it inside the IDE to edit the installed package.

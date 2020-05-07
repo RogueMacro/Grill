@@ -18,7 +18,7 @@ All other arguments (both required and optional) are value arguments. Their valu
 
 ## Commands
 
-#### `bpm install <package> [-global] [-force]`
+`bpm install <package> [-global] [-force]`
 
 Clones a package repository to your computer.
 

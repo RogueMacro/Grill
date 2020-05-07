@@ -1,8 +1,6 @@
 # bpm
 
-### Beef package manager
-
-<br>
+## Beef package manager
 
 ## How to use
 

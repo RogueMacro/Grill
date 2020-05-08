@@ -1,7 +1,5 @@
 {
   "SteakLogger": "https://github.com/RogueMacro/SteakLogger",
   "Glfw-Beef": "https://github.com/MineGame159/glfw-beef",
-  "Raylib-Beef": "https://github.com/M0n7y5/raylib-beef",
-  "Tilengine-Beef": "https://github.com/rootbeerking/Tilengine-Beef",
   "lua535-Beef": "https://github.com/thibmo/lua535-beef"
 }

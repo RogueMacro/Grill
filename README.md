@@ -1,6 +1,6 @@
 # bpm
 
-### Beef package manager
+### A package manager for Beef
 
 ## Installation
 

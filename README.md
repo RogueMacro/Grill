@@ -2,6 +2,10 @@
 
 ### Beef package manager
 
+## Installation
+
+Go to https://github.com/RogueMacro/bpm/releases and choose the latest release (or a specific version if you want), download the setup file for your os and run it as administrator.
+
 ## How to use
 
 You can run `bpm <command> [arguments]` from the command line to run a specific command.

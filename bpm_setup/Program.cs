@@ -60,13 +60,14 @@ namespace bpm_setup
                     bpmBinPath = "/usr/bin";
                 }
 
-                WriteResource(executable, Path.Combine(bpmBinPath, executable));
+                string newName = platform == PlatformID.Win32NT ? "bpm.exe" : "bpm";
+                WriteResource(executable, newName, Path.Combine(bpmBinPath, executable));
 
                 PrintColor("Installed successfully", ConsoleColor.Green);
             }
-            catch (UnauthorizedAccessException)
+            catch (UnauthorizedAccessException e)
             {
-                PrintColor("Could not install. Run again as administrator.", ConsoleColor.Red);
+                PrintColor($"{e.Message} Run again as administrator.", ConsoleColor.Red);
                 Console.Read();
             }
             catch (Exception e)
@@ -76,10 +77,10 @@ namespace bpm_setup
             }
         }
 
-        static void WriteResource(string name, string path)
+        static void WriteResource(string resource, string newName, string path)
         {
             var output = File.Open(path, FileMode.OpenOrCreate);
-            var input = Assembly.GetExecutingAssembly().GetManifestResourceStream(name);
+            var input = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource);
             if (input == null)
             {
                 PrintColor("Could not get executable resource", ConsoleColor.Red);
@@ -87,6 +88,10 @@ namespace bpm_setup
                 throw new Exception();
             }
             input.CopyTo(output);
+            input.Close();
+            output.Close();
+            string newPath = Path.Combine(Path.GetDirectoryName(path), newName);
+            File.Move(path, newPath);
         }
 
         static bool IsLinux

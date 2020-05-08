@@ -20,4 +20,8 @@
     <PackageReference Include="ServiceStack.Text" Version="5.8.0" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
 </Project>

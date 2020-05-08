@@ -10,7 +10,6 @@
     <None Remove="Resources\bpm-osx-x64" />
     <None Remove="Resources\bpm-win-x64.exe" />
     <None Remove="Resources\bpm-win-x86.exe" />
-    <None Remove="Resources\bpm.exe" />
   </ItemGroup>
 
   <ItemGroup>

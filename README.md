@@ -13,6 +13,8 @@ You can run `bpm <command> [arguments]` from the command line to run a specific 
 You can also run `bpm` from the command line or start `bpm.exe` to open the bpm shell.
 In the shell you can run different commands, i.e. `bpm> install <package>`.
 
+Note: After using `bpm add <package>` remember to add the package as a dependency to your project from the IDE.
+
 ## Arguments
 
 Arguments prefixed with a `-` (dash) are flag arguments, which doesn't have a value. Flag arguments come last after value arguments.<br>

@@ -17,6 +17,7 @@ namespace bpm.Packages
                 var repoUrl = this[name];
                 var packageFileUrl = Url.Combine(repoUrl, "raw", "master", "Package.json");
                 var package = packageFileUrl.GetJsonFromUrl().FromJson<Package>();
+                package.RepoUrl = repoUrl;
                 return package;
             }
 

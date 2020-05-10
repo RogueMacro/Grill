@@ -5,7 +5,7 @@
     },
     "install": {
       "commandName": "Project",
-      "commandLineArgs": "install steaklogger"
+      "commandLineArgs": "install lua535-beef"
     },
     "upgrade": {
       "commandName": "Project",

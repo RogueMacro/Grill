@@ -20,6 +20,18 @@ namespace bpm.Packages
             mVersion = PackageVersion.Parse(VersionString);
         }
 
+        public static Package FromInstalledPackageName(string packageName)
+        {
+            var packagePath = BpmPath.GetPackagePath(packageName);
+            return FromFile(Path.Combine(packagePath, "Package.json"));
+        }
+
+        public static Package FromGithubFile(Package package)
+        {
+            var githubFile = BpmPath.GetPackageFileUrl(package);
+            return FromGithubFile(githubFile);
+        }
+
         public static Package FromGithubFile(string url)
         {
             try
@@ -40,23 +52,6 @@ namespace bpm.Packages
             return file.FromJson<Package>();
         }
 
-        [DataMember] public string Name { get; set; }
-        [DataMember] public string Description { get; set; }
-        [DataMember] public string Author { get; set; }
-
-        public static Package FromInstalledPackageName(string packageName)
-        {
-            var packagePath = BpmPath.GetPackagePath(packageName);
-            return FromFile(Path.Combine(packagePath, "Package.json"));
-        }
-
-        public static Package FromGithubFile(Package package)
-        {
-            var githubFile = BpmPath.GetPackageFileUrl(package);
-            return FromGithubFile(githubFile);
-        }
-
-        [DataMember(Name = "Version")] public string VersionString { get; set; }
 
         private PackageVersion mVersion { get; }
         public PackageVersion Version
@@ -69,7 +64,13 @@ namespace bpm.Packages
             }
         }
 
-        public string RepoUrl => BpmPath.GetPackageRepoUrl(this);
+        [DataMember] public string Name { get; set; }
+        [DataMember] public string Description { get; set; }
+        [DataMember] public string Author { get; set; }
+        [DataMember(Name = "Version")] public string VersionString { get; set; }
+
+        public string RepoUrl { get; set; }
+
         public string ContentUrl => BpmPath.GetPackageContentUrl(this);
         public string GithubFile => BpmPath.GetPackageFileUrl(this);
         public string LocalFile => BpmPath.GetPackagePath(Name);

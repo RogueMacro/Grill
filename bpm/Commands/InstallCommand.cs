@@ -37,7 +37,7 @@ namespace bpm.Commands
 
 
             var packagePath = BpmPath.GetPackagePath(package.Name, isGlobal);
-            if (!isForceInstall && packagePath != "")
+            if (!isForceInstall && !packagePath.IsNullOrEmpty())
             {
                 Package oldPackageFile = Package.FromFile(Path.Combine(packagePath, "Package.json"));
 

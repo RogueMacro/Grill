@@ -8,25 +8,29 @@ namespace bpm.Utilities
     public static class BpmPath
     {
         public static string LogFolder
-            => Path.Combine(UserFolder, "logs");
+            => ForceExist(Path.Combine(UserFolder, "logs"));
 
         public static string UserFolder
-            => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "bpm");
+            => ForceExist(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "bpm"));
 
         public static string GlobalFolder
-            => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "bpm");
-
-        public static string GetPackageRepoUrl(Package package)
-            => Url.Combine("https://github.com/", package.Author, package.Name);
+            => ForceExist(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "bpm"));
 
         public static string GetPackageContentUrl(Package package)
-            => Url.Combine("https://raw.githubusercontent.com/", package.Author, package.Name, "master");
+            => Url.Combine(package.RepoUrl, "raw", "master");
 
         public static string GetPackageContentUrl(Package package, string file)
             => Url.Combine(GetPackageContentUrl(package), file);
 
         public static string GetPackageFileUrl(Package package)
             => Url.Combine(GetPackageContentUrl(package), "Package.json");
+
+        public static string ForceExist(string path)
+        {
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+            return path;
+        }
 
         public static string GetPackagePath(string package, bool isGlobal = false)
         {

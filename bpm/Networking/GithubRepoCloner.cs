@@ -3,7 +3,6 @@ using bpm.Packages;
 using bpm.Utilities;
 using LibGit2Sharp;
 using System;
-using System.IO;
 
 namespace bpm.Networking
 {

@@ -1,0 +1,159 @@
+FileVersion = 1
+LastConfig = "Debug"
+LastPlatform = "Win64"
+RecentFilesList = ["c:\\Users\\Willi\\AppData\\Local\\BeefLang\\BeefLibs\\corlib\\src\\Collections\\IEnumerable.bf", "c:\\dev\\Beef\\bpm\\src\\Program.bf", "c:\\Users\\Willi\\AppData\\Local\\BeefLang\\BeefLibs\\corlib\\src\\Collections\\List.bf", "c:\\dev\\Beef\\bpm\\src\\InstallCommand.bf", "c:\\dev\\Beef\\bpm\\src\\ICommand.bf", "c:\\Users\\Willi\\AppData\\Local\\BeefLang\\Samples\\SpaceGame\\src\\Program.bf"]
+
+[MainWindow]
+X = 64
+Y = 6
+Width = 1200
+Height = 1024
+ShowKind = "Maximized"
+
+[MainDockingFrame]
+Type = "DockingFrame"
+SplitType = 2
+
+[[MainDockingFrame.DockedWidgets]]
+RequestedWidth = 400.0
+RequestedHeight = 250.0
+SizePriority = 250.0
+Type = "DockingFrame"
+SplitType = 1
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets]]
+RequestedWidth = 250.0
+RequestedHeight = 250.0
+Type = "TabbedView"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
+TabLabel = "Workspace"
+TabWidth = 110.8333
+Type = "ProjectPanel"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets]]
+IsFillWidget = true
+Permanent = true
+RequestedWidth = 150.0
+RequestedHeight = 150.0
+SizePriority = 150.0
+DefaultDocumentsTabbedView = true
+Type = "TabbedView"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "List.bf"
+TabWidth = 62.5
+Type = "SourceViewPanel"
+FilePath = "c:\\Users\\Willi\\AppData\\Local\\BeefLang\\BeefLibs\\corlib\\src\\Collections\\List.bf"
+CursorPos = 12882
+VertPos = 11088.0
+ProjectName = "corlib"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
+TabLabel = "IEnumerable.bf"
+TabWidth = 113.3333
+Type = "SourceViewPanel"
+FilePath = "c:\\Users\\Willi\\AppData\\Local\\BeefLang\\BeefLibs\\corlib\\src\\Collections\\IEnumerable.bf"
+CursorPos = 144
+ProjectName = "corlib"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "ICommand.bf"
+TabWidth = 105.0
+Type = "SourceViewPanel"
+FilePath = "c:\\dev\\Beef\\bpm\\src\\ICommand.bf"
+CursorPos = 55
+ProjectName = "bpm"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "InstallCommand.bf"
+TabWidth = 134.1667
+Type = "SourceViewPanel"
+FilePath = "c:\\dev\\Beef\\bpm\\src\\InstallCommand.bf"
+CursorPos = 30
+ProjectName = "bpm"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "Program.bf"
+TabWidth = 91.66666
+Type = "SourceViewPanel"
+FilePath = "c:\\dev\\Beef\\bpm\\src\\Program.bf"
+CursorPos = 1024
+VertPos = 486.0
+ProjectName = "bpm"
+
+[[MainDockingFrame.DockedWidgets]]
+RequestedWidth = 312.0
+RequestedHeight = 309.0
+Type = "DockingFrame"
+SplitType = 1
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets]]
+RequestedWidth = 312.0
+RequestedHeight = 312.0
+SizePriority = 1918.0
+Type = "TabbedView"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
+TabLabel = "Errors"
+TabWidth = 81.66666
+Type = "ErrorsPanel"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "Memory"
+TabWidth = 95.83333
+Type = "MemoryPanel"
+AutoResize = "Auto_Mul8"
+RequestedWidth = 300.0
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "Watch"
+TabWidth = 85.0
+Type = "WatchPanel"
+Columns = [{Width = 187.0}, {Width = 187.0}, {Width = 187.0}]
+Items = [""]
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "Auto"
+TabWidth = 76.66666
+Type = "AutoWatchPanel"
+Columns = [{Width = 187.0}, {Width = 264.0}, {Width = 187.0}]
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets]]
+RequestedWidth = 312.0
+RequestedHeight = 312.0
+SizePriority = 1918.0
+Type = "TabbedView"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "Find Results"
+TabWidth = 115.0
+Type = "FindResultsPanel"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "Threads"
+TabWidth = 93.33333
+Type = "ThreadPanel"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "Call Stack"
+TabWidth = 103.3333
+Type = "CallStackPanel"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+TabLabel = "Immediate"
+TabWidth = 110.0
+Type = "ImmediatePanel"
+
+[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
+TabLabel = "Output"
+TabWidth = 88.33333
+Type = "OutputPanel"
+
+[DebuggerDisplayTypes.""]
+IntDisplayType = "Default"
+MmDisplayType = "Default"

@@ -1,0 +1,6 @@
+FileVersion = 1
+Projects = {bpm = {Path = "."}}
+Unlocked = ["corlib"]
+
+[Workspace]
+StartupProject = "bpm"

@@ -2,6 +2,6 @@
 
 ### A package manager for Beef
 
-Website: https://beefpm.herokuapp.com/
+Website: https://grillpm.herokuapp.com/
 
-Guide: https://beefpm.herokuapp.com/guide/
+Guide: https://grillpm.herokuapp.com/guide/

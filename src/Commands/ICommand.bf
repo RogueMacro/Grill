@@ -1,6 +1,6 @@
 using System;
 
-namespace bpm
+namespace bpm.Commands
 {
 	public interface ICommand
 	{

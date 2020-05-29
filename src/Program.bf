@@ -1,6 +1,6 @@
+using bpm.Commands;
 using System;
 using System.Collections;
-using System.Linq;
 using System.Reflection;
 
 namespace bpm
@@ -12,17 +12,17 @@ namespace bpm
 		static void Main()
 		{
 			var args = scope List<CommandArgument>();
-			args.Add(new ValueArgument(null, "steak.logging"));
-			args.Add(new FlagArgument("-global"));
+			args.Add(scope ValueArgument(null, "steak.logging"));
+			args.Add(scope FlagArgument("-global"));
 			ExecuteCommand("install", args);
 
 			Console.WriteLine("Done");
-			Console.Read();
+			Console.In.Read();
 
 			delete Commands;
 		}
 
-		static void ExecuteCommand(String name, IEnumerable<CommandArgument> args)
+		static void ExecuteCommand(String name, List<CommandArgument> args)
 		{
 			var expectedTypename = scope String(name)..Append("command");
 			
@@ -36,40 +36,57 @@ namespace bpm
 				{
 					Console.WriteLine("Executing command: {}", typename);
 					
-					var methods = type.GetMethods();
-					var methodResult = Linq.Where<MethodInfo>(methods, scope (i) => i.Name == "Execute").Single();
+					var methodResult = type.GetMethod("Execute");
 					if (methodResult case .Ok(let method))
 					{
 						let result = type.CreateObject();
-						if (result case .Ok(var val))
+						if (result case .Ok(let val))
 						{
-							var valueArguments = args.Where(scope (i) => i is ValueArgument);
-							var flagArguments = args.Where(scope (i) => i is FlagArgument);
+							var valueArguments = scope List<ValueArgument>();
+							for (var arg in args)
+							{
+								var carg = arg as ValueArgument;
+								if (carg != null)
+									valueArguments.Add(carg);
+							}	
+
+							var flagArguments = scope List<FlagArgument>();
+							for (var arg in args)
+							{
+								var carg = arg as FlagArgument;
+								if (carg != null)
+									flagArguments.Add(carg);
+							}	
 							var methodArguments = scope Object[method.ParamCount];
 
 							for (int i = 0; i < method.ParamCount; ++i)
 							{
-								var pName = scope String();
-								method.GetParamType(i).GetName(pName);
-								var m = valueArguments.Where(scope (a) => a.Name == method.GetParamName(i));
-								//Console.WriteLine("Param({}: {})  Value({})", method.GetParamName(i), pName, (m.Single() == .Err ? valueArguments.ElementAt(i).Get() : m.Single().Get()).Value);
+								var vName = method.GetParamName(i);
 
 								if (method.GetParamType(i) == typeof(StringView))
 								{
-									var matches = valueArguments.Where(scope (a) => a.Name == method.GetParamName(i));
-									if (matches.Count() == 1)
-										methodArguments[i] = (String) matches.Single().Get().Value;
+									Result<ValueArgument> ra = .Err;
+									for (var va in valueArguments)
+										if (va.Name == vName)
+											ra = .Ok(va);
+
+									if (ra case .Ok(var argVal))
+										methodArguments[i] = scope::box StringView(scope:: String((String) argVal.Value));
 									else
-										methodArguments[i] = (String) args.ElementAt(i).Get().Value;
+										methodArguments[i] = scope::box StringView(scope:: String((String) args[i].Value));
 
 								}
 								else if (method.GetParamType(i) == typeof(bool))
 								{
-									var matches = flagArguments.Where(scope (a) => a.Name == method.GetParamName(i));
-									if (matches.Count() == 1)
-										methodArguments[i] = (bool) matches.First().Get().Value;
+									Result<ValueArgument> ra = .Err;
+									for (var va in valueArguments)
+										if (va.Name == vName)
+											ra = .Ok(va);
+
+									if (ra case .Ok(let argVal))
+										methodArguments[i] = scope::box bool((bool) argVal.Value);
 									else
-										methodArguments[i] = false;
+										methodArguments[i] = scope::box false;
 								}
 								else
 								{
@@ -80,15 +97,16 @@ namespace bpm
 							}
 
 							method.Invoke(val, params methodArguments);
+							delete val;
 						}
 						else if (result case .Err(let err))
 						{
 							Console.WriteLine("Error: Could not create command instance: {}", err);
 						}
 					}
-					else
+					else if (methodResult case .Err(let err))
 					{
-						Console.WriteLine("Error: Command type '{}' does not have a Execute method", typename);
+						Console.WriteLine("Error: Could not get execute method from '{}' ({})", typename, err);
 					}
 				}	
 			}

@@ -1,4 +1,4 @@
-# bpm
+# Grill
 
 ### A package manager for Beef
 

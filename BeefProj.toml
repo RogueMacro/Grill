@@ -1,5 +1,10 @@
 FileVersion = 1
 
 [Project]
-Name = "bpm"
+Name = "Grill"
 StartupObject = "bpm.Program"
+DefaultNamespace = "bpm"
+
+[Configs.Debug.Win64]
+LibPaths = ["$(ProjectDir)/libs/git2.lib"]
+PostBuildCmds = ["CopyToDependents(\"$(ProjectDir)/runtime/git2.dll\")"]

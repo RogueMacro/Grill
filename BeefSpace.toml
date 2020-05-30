@@ -1,6 +1,6 @@
 FileVersion = 1
-Projects = {bpm = {Path = "."}}
+Projects = {Grill = {Path = "."}}
 Unlocked = ["corlib"]
 
 [Workspace]
-StartupProject = "bpm"
+StartupProject = "Grill"

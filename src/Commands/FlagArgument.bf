@@ -1,6 +1,6 @@
 using System;
 
-namespace bpm.Commands
+namespace Grill.Commands
 {
 	public class FlagArgument : CommandArgument
 	{

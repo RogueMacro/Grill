@@ -1,17 +1,32 @@
-using bpm.Networking;
+using Grill.API;
 using System;
+using System.IO;
 
-namespace bpm.Commands
+namespace Grill.Commands
 {
 	[Reflect, AlwaysInclude(AssumeInstantiated=true, IncludeAllMethods=true)]
 	public class InstallCommand : ICommand
 	{
-		public void Execute(StringView package, bool global)
+		public bool Execute(String package, bool global)
 		{
-			Console.WriteLine("Installing {}, Global={}", package, global);
+			if (Program.IsDebug)
+				Program.Print(.Cyan, "Installing {}, global={}", package, global);
+			else
+				Program.Print(.Cyan, "Installing {}", package);
 
-			let result = Github.Clone("None");
-			Console.WriteLine("Cloning resulted with: {}", result);
+			var url = scope String();
+			API.GetPackageRepoUrl(package, url);
+
+			var path = scope String();
+			Path.InternalCombine(path, SpecialFolder.PackagesFolder, package);
+
+			let result = Git.Clone(url, path);
+			if (result case .Ok)
+				Program.Success("Installed successfully");
+			else
+				Program.Error("Installation failed");
+
+			return result case .Ok;
 		}
 	}
 }

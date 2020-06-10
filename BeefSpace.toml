@@ -1,6 +1,12 @@
 FileVersion = 1
-Projects = {Grill = {Path = "."}}
-Unlocked = ["corlib"]
+Projects = {Grill = {Path = "."}, BeefToml = {Path = "libs/beef-toml/lib"}}
+Locked = ["BeefToml"]
 
 [Workspace]
 StartupProject = "Grill"
+
+[Configs."grill add".Win32]
+ConfigSelections = {Grill = {Config = "Debug"}}
+
+[Configs."grill install".Win32]
+ConfigSelections = {Grill = {Config = "Debug"}}

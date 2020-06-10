@@ -1,11 +1,11 @@
 FileVersion = 1
-LastConfig = "Debug"
+LastConfig = "grill add"
 LastPlatform = "Win64"
-RecentFilesList = ["c:\\dev\\Beef\\grill\\src\\LibGit2Beef\\LibGit2.bf", "c:\\dev\\Beef\\grill\\src\\Program.bf", "c:\\dev\\Beef\\bpm\\src\\Networking\\Github.bf", "c:\\dev\\Beef\\bpm\\src\\Commands\\InstallCommand.bf", "c:\\dev\\Beef\\bpm\\src\\Program.bf"]
+RecentFilesList = ["c:\\dev\\Beef\\Grill\\src\\Program.bf", "c:\\dev\\Beef\\Grill\\src\\Commands\\AddCommand.bf", "c:\\Users\\Willi\\AppData\\Local\\BeefLang\\BeefLibs\\corlib\\src\\Diagnostics\\Process.bf", "c:\\dev\\Beef\\bpm\\src\\Networking\\Github.bf", "c:\\dev\\Beef\\bpm\\src\\Commands\\InstallCommand.bf"]
 
 [MainWindow]
 X = 64
-Y = 6
+Y = 16
 Width = 1200
 Height = 1024
 ShowKind = "Maximized"
@@ -29,7 +29,7 @@ Type = "TabbedView"
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
 TabLabel = "Workspace"
-TabWidth = 111.6
+TabWidth = 115.0
 Type = "ProjectPanel"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets]]
@@ -43,19 +43,21 @@ Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
-TabLabel = "LibGit2.bf"
-TabWidth = 93.6
+TabLabel = "Program.bf"
+TabWidth = 106.0
 Type = "SourceViewPanel"
-FilePath = "c:\\dev\\Beef\\grill\\src\\LibGit2Beef\\LibGit2.bf"
-CursorPos = 136
+FilePath = "c:\\dev\\Beef\\Grill\\src\\Program.bf"
+CursorPos = 2231
+VertPos = 1440.0
 ProjectName = "Grill"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "Program.bf"
-TabWidth = 92.4
+TabLabel = "AddCommand.bf"
+TabWidth = 129.0
 Type = "SourceViewPanel"
-FilePath = "c:\\dev\\Beef\\grill\\src\\Program.bf"
-CursorPos = 202
+FilePath = "c:\\dev\\Beef\\Grill\\src\\Commands\\AddCommand.bf"
+CursorPos = 972
+VertPos = 170.0
 ProjectName = "Grill"
 
 [[MainDockingFrame.DockedWidgets]]
@@ -71,28 +73,28 @@ SizePriority = 1918.0
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-Active = true
 TabLabel = "Errors"
-TabWidth = 83.6
+TabWidth = 86.0
 Type = "ErrorsPanel"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 TabLabel = "Memory"
-TabWidth = 97.2
+TabWidth = 99.0
 Type = "MemoryPanel"
 AutoResize = "Auto_Mul8"
 RequestedWidth = 300.0
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
+Active = true
 TabLabel = "Watch"
-TabWidth = 85.2
+TabWidth = 86.0
 Type = "WatchPanel"
 Columns = [{Width = 187.0}, {Width = 187.0}, {Width = 187.0}]
-Items = ["methodArguments", ""]
+Items = ["doc", ""]
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 TabLabel = "Auto"
-TabWidth = 76.4
+TabWidth = 77.0
 Type = "AutoWatchPanel"
 Columns = [{Width = 187.0}, {Width = 264.0}, {Width = 187.0}]
 
@@ -104,28 +106,28 @@ Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 TabLabel = "Find Results"
-TabWidth = 117.2
+TabWidth = 119.0
 Type = "FindResultsPanel"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 TabLabel = "Threads"
-TabWidth = 94.0
+TabWidth = 97.0
 Type = "ThreadPanel"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 TabLabel = "Call Stack"
-TabWidth = 103.6
+TabWidth = 105.0
 Type = "CallStackPanel"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 TabLabel = "Immediate"
-TabWidth = 109.2
+TabWidth = 111.0
 Type = "ImmediatePanel"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
 TabLabel = "Output"
-TabWidth = 89.2
+TabWidth = 90.0
 Type = "OutputPanel"
 
 [DebuggerDisplayTypes.""]

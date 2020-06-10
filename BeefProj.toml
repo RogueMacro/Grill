@@ -1,10 +1,47 @@
 FileVersion = 1
+Dependencies = {corlib = "*", BeefToml = "*"}
 
 [Project]
 Name = "Grill"
-StartupObject = "bpm.Program"
-DefaultNamespace = "bpm"
+StartupObject = "Grill.Program"
 
 [Configs.Debug.Win64]
-LibPaths = ["$(ProjectDir)/libs/git2.lib"]
-PostBuildCmds = ["CopyToDependents(\"$(ProjectDir)/runtime/git2.dll\")"]
+BuildCommandsOnCompile = "Never"
+BuildCommandsOnRun = "Never"
+PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y"]
+
+[Configs.Release.Win64]
+BuildCommandsOnCompile = "Never"
+BuildCommandsOnRun = "Never"
+
+[Configs.Paranoid.Win64]
+BuildCommandsOnCompile = "Never"
+BuildCommandsOnRun = "Never"
+
+[Configs.Test.Win64]
+BuildCommandsOnCompile = "Never"
+BuildCommandsOnRun = "Never"
+
+[Configs."grill add".Win64]
+BeefLibType = "Static"
+BuildCommandsOnCompile = "Never"
+BuildCommandsOnRun = "Never"
+PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y"]
+DebugCommandArguments = "add steak.logging -debug"
+PreprocessorMacros = ["DEBUG"]
+
+[Configs."grill add".Win32]
+BeefLibType = "Static"
+PreprocessorMacros = ["DEBUG"]
+
+[Configs."grill install".Win64]
+BeefLibType = "Static"
+BuildCommandsOnCompile = "Never"
+BuildCommandsOnRun = "Never"
+PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y"]
+DebugCommandArguments = "install steak.logging -debug"
+PreprocessorMacros = ["DEBUG"]
+
+[Configs."grill install".Win32]
+BeefLibType = "Static"
+PreprocessorMacros = ["DEBUG"]

@@ -1,25 +1,106 @@
-using bpm.Commands;
+using Grill.Commands;
 using System;
 using System.Collections;
 using System.Reflection;
+using System.Net;
+using System.IO;
 
-namespace bpm
+namespace Grill
 {
-	class Program
+	public static class Program
 	{
-		static List<ICommand> Commands = new List<ICommand>();
+		public static bool IsDebug = false;
 
-		static void Main()
+		public static List<ICommand> Commands = new List<ICommand>();
+
+		static void Main(String[] args)
 		{
-			var args = scope List<CommandArgument>();
-			args.Add(scope ValueArgument(null, "steak.logging"));
-			args.Add(scope FlagArgument("-global"));
-			ExecuteCommand("install", args);
+			if (args.Count > 1)
+			{
+				var parsedArguments = scope List<CommandArgument>();
+				String command = null;
+
+				bool first = true;
+				for (let arg in args)
+				{
+					if (first)
+					{
+						command = scope:: String(arg);
+						first = false;
+					}
+
+					if (arg.StartsWith("-"))
+					{
+						parsedArguments.Add(scope:: FlagArgument(scope:: String(arg, 1)));
+					}
+					else
+					{
+						int i = 0;
+						for (var char in arg.RawChars)
+						{
+							if (char.IsLetter)
+							{
+								++i;
+							}
+							else if (char == '=')
+							{
+								parsedArguments.Add(scope:: ValueArgument(scope:: String(arg, 0, i), scope:: String(arg, i, arg.Length)));
+								break;
+							}
+							else
+							{
+								parsedArguments.Add(scope:: ValueArgument(null, scope:: String(arg)));
+								break;
+							}
+						}
+					}
+				}
+
+				for (let arg in parsedArguments)
+				{
+					if (arg.Name == "debug")
+					{
+						IsDebug = true;
+						parsedArguments.Remove(arg);
+						Warning("Debug mode is on");
+					}
+				}
+
+				ExecuteCommand(command, parsedArguments);
+			}
+			else
+			{
+				Error("No arguments given");
+			}
 
 			Console.WriteLine("Done");
 			Console.In.Read();
 
 			delete Commands;
+		}
+
+		public static void Debug(StringView fmt, params Object[] args) => Debug(.Gray, fmt, params args);
+		
+		public static void Debug(ConsoleColor color, StringView fmt, params Object[] args)
+		{
+			if (IsDebug)
+				Print(color, scope String()..AppendF("[Debug] {}", fmt), params args);
+		}
+
+		public static void Warning(StringView fmt, params Object[] args) => Print(.Yellow, scope String()..AppendF("[Warning] {}", fmt), params args);
+
+		public static void Error(StringView fmt, params Object[] args) => Print(.Red, scope String()..AppendF("[Error] {}", fmt), params args);
+
+		public static void Success(StringView fmt, params Object[] args) => Print(.Green, scope String()..AppendF("[Success] {}", fmt), params args);
+
+		public static void Print(StringView fmt, params Object[] args) => Print(.White, fmt, params args);
+
+		public static void Print(ConsoleColor color, StringView fmt, params Object[] args)
+		{
+			let origin = Console.ForegroundColor;
+			Console.ForegroundColor = color;
+			Console.WriteLine(fmt, params args);
+			Console.ForegroundColor = origin;
 		}
 
 		static void ExecuteCommand(String name, List<CommandArgument> args)
@@ -31,11 +112,9 @@ namespace bpm
 				let type = Type.[Friend]GetType(typeId);
 				String typename = scope .();
 				type?.GetName(typename);
-				
+
 				if (String.Compare(typename, expectedTypename, true) == 0 && type != typeof(ICommand))
 				{
-					Console.WriteLine("Executing command: {}", typename);
-					
 					var methodResult = type.GetMethod("Execute");
 					if (methodResult case .Ok(let method))
 					{
@@ -59,34 +138,54 @@ namespace bpm
 							}	
 							var methodArguments = scope Object[method.ParamCount];
 
-							for (int i = 0; i < method.ParamCount; ++i)
+							int i = 0;
+							for (i = 0; i < methodArguments.Count; ++i)
 							{
 								var vName = method.GetParamName(i);
 
-								if (method.GetParamType(i) == typeof(StringView))
+								if (method.GetParamType(i) == typeof(String))
 								{
+									if (i >= args.Count || args[i] is FlagArgument)
+									{
+										methodArguments[i] = scope:: String();
+										continue;
+									}
+
 									Result<ValueArgument> ra = .Err;
 									for (var va in valueArguments)
 										if (va.Name == vName)
 											ra = .Ok(va);
 
 									if (ra case .Ok(var argVal))
-										methodArguments[i] = scope::box StringView(scope:: String((String) argVal.Value));
+										methodArguments[i] = scope:: String((String) argVal.Value);
 									else
-										methodArguments[i] = scope::box StringView(scope:: String((String) args[i].Value));
+										methodArguments[i] = scope:: String((String) args[i].Value);
 
 								}
-								else if (method.GetParamType(i) == typeof(bool))
+								else if (method.GetParamType(i) == typeof(bool) || args[i] is FlagArgument)
 								{
-									Result<ValueArgument> ra = .Err;
-									for (var va in valueArguments)
-										if (va.Name == vName)
-											ra = .Ok(va);
+									break;
+								}
+								else
+								{
+									var paramType = scope String();
+									method.GetParamType(i).GetName(paramType);
+									Console.WriteLine("Error: Invalid command parameter type: {}", paramType);
+								}
+							}
 
-									if (ra case .Ok(let argVal))
-										methodArguments[i] = scope::box bool((bool) argVal.Value);
-									else
-										methodArguments[i] = scope::box false;
+							for (i = i; i < methodArguments.Count; ++i)
+							{
+								var vName = method.GetParamName(i);
+
+								if (method.GetParamType(i) == typeof(bool))
+								{
+									bool isArg = false;
+									for (var va in flagArguments)
+										if (va.Name == vName)
+											isArg = true;
+
+									methodArguments[i] = scope::box isArg;
 								}
 								else
 								{
@@ -97,7 +196,8 @@ namespace bpm
 							}
 
 							method.Invoke(val, params methodArguments);
-							delete val;
+							delete result.Value;
+							return;
 						}
 						else if (result case .Err(let err))
 						{
@@ -110,6 +210,23 @@ namespace bpm
 					}
 				}	
 			}
+
+			Error("{} is not a command", name);
+		}
+
+		public static bool Ask(StringView text)
+		{
+			repeat
+			{
+				Console.Write("{} [y/n] ", text);
+				var buffer = scope String();
+				Console.In.ReadLine(buffer);
+				buffer.ToLower();
+				if (buffer == "y" || buffer == "yes")
+					return true;
+				else if (buffer == "n" || buffer == "n")
+					return false;
+			} while (true)
 		}
 	}
 }

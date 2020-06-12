@@ -10,9 +10,9 @@ namespace Grill.Commands
 		public bool Execute(String package, bool global)
 		{
 			if (Program.IsDebug)
-				Program.Print(.Cyan, "Installing {}, global={}", package, global);
+				Program.Info("Installing {}, global={}", package, global);
 			else
-				Program.Print(.Cyan, "Installing {}", package);
+				Program.Info("Installing {}", package);
 
 			var url = scope String();
 			API.GetPackageRepoUrl(package, url);

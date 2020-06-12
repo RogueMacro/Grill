@@ -6,29 +6,50 @@ namespace Grill
 {
 	public static class Git
 	{
-		public static String LocalExePath = "Git/bin/git.exe";
-		public static void GetFullExePath(String target) => Path.InternalCombine(target, SpecialFolder.SourceDirectory, LocalExePath);
+		public static String GitPath = new String();
+		public static String ExePath = new String();
+
+		public static void Init()
+		{
+			Path.InternalCombine(GitPath, SpecialFolder.SourceDirectory, "Git");
+			Path.InternalCombine(ExePath, GitPath, "bin/git.exe");
+
+			Execute("config", "http.sslVerify", "false");
+		}
 
 		public static Result<void> Clone(String url, String to)
 		{
-			return Execute("clone", url, to);
+			return Execute("-c", "http.sslVerify=false", "clone", url, to);
 		}
 
 		private static Result<void> Execute(params StringView[] args)
 		{
-			var exe = scope String();
-			GetFullExePath(exe);
-			var command = scope String()..AppendF("\"\"{}\" ", exe);
+			var command = scope String()..AppendF("\"\"{}\" ", ExePath);
 
-			for (int i = 0; i < args.Count; ++i)
-				command.AppendF("\"{}\" ", args[i]);
+			for (var arg in args)
+			{
+				if ((arg.Length >= 2 && arg[0].IsLetter && arg[1] == ':' && (arg[2] == '/' || arg[2] == '\\')) ||
+					arg.StartsWith('/') ||
+					arg.StartsWith('\\') ||
+					arg.StartsWith('.')) 
+					command.AppendF("\"{}\" ", arg);
+				else
+					command.AppendF("{} ", arg);
+			}
 
 			if (!Program.IsDebug)
 				command.Append("> /dev/null 2>&1");
 
 			command.Append('"');
 
+			Program.Debug("Executing command: '{}'", command);
 			return Cpp.system(command) == 0 ? .Ok : .Err;
+		}
+
+		public static ~this()
+		{
+			delete GitPath;
+			delete ExePath;
 		}
 	}
 }

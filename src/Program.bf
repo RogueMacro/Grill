@@ -58,13 +58,15 @@ namespace Grill
 
 				for (let arg in parsedArguments)
 				{
-					if (arg.Name == "debug")
+					if (arg.Name == "ddebug")
 					{
 						IsDebug = true;
 						parsedArguments.Remove(arg);
 						Warning("Debug mode is on");
 					}
 				}
+
+				Git.Init();
 
 				ExecuteCommand(command, parsedArguments);
 			}
@@ -92,6 +94,8 @@ namespace Grill
 		public static void Error(StringView fmt, params Object[] args) => Print(.Red, scope String()..AppendF("[Error] {}", fmt), params args);
 
 		public static void Success(StringView fmt, params Object[] args) => Print(.Green, scope String()..AppendF("[Success] {}", fmt), params args);
+	
+		public static void Info(StringView fmt, params Object[] args) => Print(.Cyan, scope String()..AppendF("[Info] {}", fmt), params args);
 
 		public static void Print(StringView fmt, params Object[] args) => Print(.White, fmt, params args);
 
@@ -218,7 +222,7 @@ namespace Grill
 		{
 			repeat
 			{
-				Console.Write("{} [y/n] ", text);
+				Console.Write("[Question] {} [y/n] ", text);
 				var buffer = scope String();
 				Console.In.ReadLine(buffer);
 				buffer.ToLower();

@@ -9,7 +9,7 @@ namespace Grill.Commands
 	{
 		public void Execute(String package, String path)
 		{
-			if (!path.Contains(":"))
+			if (path.Length >= 2 && path[1] != ':')
 			{
 				var cwd = scope String();
 				Directory.GetCurrentDirectory(cwd);
@@ -18,7 +18,6 @@ namespace Grill.Commands
 				path.Set(fullPath);
 			}
 
-			Program.Debug("Adding package: {}", package);
 			var packagePath = scope String();
 			Path.InternalCombine(packagePath, SpecialFolder.PackagesFolder, package);
 			if (Directory.Exists(packagePath))
@@ -38,6 +37,8 @@ namespace Grill.Commands
  						{
 							if (projects.FindChild(package) == null)
 							{
+								Program.Info("Adding package: {}", package);
+
 								projects
 									.AddChild<TomlTableNode>(package)
 									.AddChild<TomlValueNode>("Path")
@@ -46,6 +47,8 @@ namespace Grill.Commands
 								var serialized = scope String();
 								TomlSerializer.Write((TomlTableNode) doc, serialized);
 								Console.WriteLine("Serialized: {}", serialized);
+
+								Program.Success("Package added");
 							}
 							else
 							{

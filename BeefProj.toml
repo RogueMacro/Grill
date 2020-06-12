@@ -24,8 +24,6 @@ BuildCommandsOnRun = "Never"
 
 [Configs."grill add".Win64]
 BeefLibType = "Static"
-BuildCommandsOnCompile = "Never"
-BuildCommandsOnRun = "Never"
 PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y"]
 DebugCommandArguments = "add steak.logging -debug"
 PreprocessorMacros = ["DEBUG"]

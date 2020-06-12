@@ -1,6 +1,5 @@
 FileVersion = 1
 Projects = {Grill = {Path = "."}, BeefToml = {Path = "libs/beef-toml/lib"}}
-Locked = ["BeefToml"]
 
 [Workspace]
 StartupProject = "Grill"

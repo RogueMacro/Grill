@@ -1,7 +1,7 @@
 FileVersion = 1
 LastConfig = "grill add"
 LastPlatform = "Win64"
-RecentFilesList = ["c:\\dev\\Beef\\Grill\\src\\Program.bf", "c:\\dev\\Beef\\Grill\\src\\Commands\\AddCommand.bf", "c:\\Users\\Willi\\AppData\\Local\\BeefLang\\BeefLibs\\corlib\\src\\Diagnostics\\Process.bf", "c:\\dev\\Beef\\bpm\\src\\Networking\\Github.bf", "c:\\dev\\Beef\\bpm\\src\\Commands\\InstallCommand.bf"]
+RecentFilesList = ["c:\\dev\\Beef\\Grill\\src\\Commands\\AddCommand.bf", "c:\\Users\\Willi\\AppData\\Local\\BeefLang\\BeefLibs\\corlib\\src\\Diagnostics\\Process.bf", "c:\\dev\\Beef\\bpm\\src\\Networking\\Github.bf", "c:\\dev\\Beef\\bpm\\src\\Commands\\InstallCommand.bf"]
 
 [MainWindow]
 X = 64
@@ -43,21 +43,12 @@ Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
-TabLabel = "Program.bf"
-TabWidth = 106.0
-Type = "SourceViewPanel"
-FilePath = "c:\\dev\\Beef\\Grill\\src\\Program.bf"
-CursorPos = 2231
-VertPos = 1440.0
-ProjectName = "Grill"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 TabLabel = "AddCommand.bf"
 TabWidth = 129.0
 Type = "SourceViewPanel"
 FilePath = "c:\\dev\\Beef\\Grill\\src\\Commands\\AddCommand.bf"
-CursorPos = 972
-VertPos = 170.0
+CursorPos = 1416
+VertPos = 225.0
 ProjectName = "Grill"
 
 [[MainDockingFrame.DockedWidgets]]
@@ -90,7 +81,7 @@ TabLabel = "Watch"
 TabWidth = 86.0
 Type = "WatchPanel"
 Columns = [{Width = 187.0}, {Width = 187.0}, {Width = 187.0}]
-Items = ["doc", ""]
+Items = ["doc", "projects", ""]
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 TabLabel = "Auto"

@@ -201,28 +201,15 @@ namespace JetFistGames.Toml.Internal
 		{
 			TomlTableNode curNode = start;
 
-			var sep = path.Split('.');
-			for (var child in sep)
+			var next = curNode.FindChild(path);
+			if (next == null)
 			{
-				var next = curNode.FindChild(child);
-				if (next == null)
-				{
-					if (sep.HasMore)
-					{
-						curNode = curNode.AddChild<TomlTableNode>(child);
-					}
-					else
-					{
-						return curNode.AddChild(child, value);
-					}
-				}
-				else
-				{
-					return .Err("Value already defined at key path");
-				}
+				return curNode.AddChild(path, value);
 			}
-
-			return .Err("");
+			else
+			{
+				return .Err("Value already defined at key path");
+			}
 		}
 
 		private Result<T, String> GetOrCreate<T>(TomlTableNode start, StringView path, bool ignoreDup = true) where T : TomlNode
@@ -373,6 +360,8 @@ namespace JetFistGames.Toml.Internal
 						break;
 					}
 
+					Utils.Check!(Match(.KeyStart));
+
 					if (ParseKey() case .Err(let err))
 					{
 						delete containerNode;
@@ -422,7 +411,17 @@ namespace JetFistGames.Toml.Internal
 		/// Parse key = value
 		private Result<void, TomlError> ParseKey()
 		{
-			var key = Utils.Check!(Match(TokenType.Text)).Value;
+			Token key;
+
+			if( Check(.String) )
+			{
+				key = Next();
+			}
+			else
+			{
+				key = Utils.Check!(Match(TokenType.Text)).Value;
+			}
+
 			var value = Utils.Check!(ParseValueTop()).Value;
 
 			var target = Insert(_activeNode, key.Value, value);

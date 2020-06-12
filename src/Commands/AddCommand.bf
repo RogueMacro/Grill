@@ -33,7 +33,29 @@ namespace Grill.Commands
 					let result = TomlSerializer.Read(projectFile);
 					if (result case .Ok(let doc))
 					{
-						//Console.WriteLine(doc);
+						var projectsResult = doc["Projects"].GetTable();
+						if (projectsResult case .Ok(let projects))
+ 						{
+							if (projects.FindChild(package) == null)
+							{
+								projects
+									.AddChild<TomlTableNode>(package)
+									.AddChild<TomlValueNode>("Path")
+									.SetString(path);
+
+								var serialized = scope String();
+								TomlSerializer.Write((TomlTableNode) doc, serialized);
+								Console.WriteLine("Serialized: {}", serialized);
+							}
+							else
+							{
+								Program.Error("Package already added to this project");
+							}
+						}
+						else
+						{
+							Program.Error("Failed to get projects from workspace file");
+						}
 
 						delete doc;
 					}

@@ -115,13 +115,9 @@ namespace JetFistGames.Toml
 		{
 			TomlNode curNode = this;
 
-			var sep = path.Split('.');
-			for (var child in sep)
-			{
-				curNode = curNode.FindChild(child);
-				if (curNode == null)
-					return null;
-			}
+			curNode = curNode.FindChild(path);
+			if (curNode == null)
+				return null;
 
 			return (T)curNode;
 		}

@@ -1,0 +1,11 @@
+FileVersion = 1
+Projects = {Grill = {Path = "."}, BeefToml = {Path = "libs/beef-toml/lib"}}
+
+[Workspace]
+StartupProject = "Grill"
+
+[Configs."grill add".Win32]
+ConfigSelections = {Grill = {Config = "Debug"}}
+
+[Configs."grill install".Win32]
+ConfigSelections = {Grill = {Config = "Debug"}}

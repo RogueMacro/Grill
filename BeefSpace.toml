@@ -1,5 +1,5 @@
 FileVersion = 1
-Projects = {Grill = {Path = "."}, BeefToml = {Path = "libs/beef-toml/lib"}}
+Projects = {Grill = {Path = "."}, BeefToml = {Path = "libs/beef-toml/lib"}, "steak.logging" = {Path = "c:\\dev\\Beef\\grill\\build\\grill add_Win64\\Grill\\packages\\steak.logging"}}
 
 [Workspace]
 StartupProject = "Grill"

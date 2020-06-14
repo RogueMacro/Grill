@@ -5,6 +5,10 @@ Dependencies = {corlib = "*", BeefToml = "*"}
 Name = "Grill"
 StartupObject = "Grill.Program"
 
+[Platform.Windows]
+FileVersion = "0.0.1"
+ProductVersion = "0.0.1"
+
 [Configs.Debug.Win64]
 BuildCommandsOnCompile = "Never"
 BuildCommandsOnRun = "Never"

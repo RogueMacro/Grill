@@ -58,7 +58,7 @@ namespace Grill
 
 				for (let arg in parsedArguments)
 				{
-					if (arg.Name == "ddebug")
+					if (arg.Name == "debug")
 					{
 						IsDebug = true;
 						parsedArguments.Remove(arg);

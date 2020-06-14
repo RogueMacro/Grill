@@ -77,7 +77,10 @@ namespace JetFistGames.Toml
 			{
 				var val = node[key];
 
-				output.AppendF("{0} = ", key);
+				if (key.Contains(' ') || key.Contains('.'))
+					output.AppendF("\"{0}\" = ", key);
+				else
+					output.AppendF("{0} = ", key);
 				Emit(val, output);
 				output.Append("\n");
 			}
@@ -95,7 +98,11 @@ namespace JetFistGames.Toml
 			}
 			else if(node.Kind == .String)
 			{
-				output.AppendF("\"{0}\"", node.GetString().Value);
+				output.AppendF("\"{0}\"", node.GetString().Value..Replace("\\", "\\\\"));
+			}
+			else if(node.Kind == .Int)
+			{
+				output.AppendF("{}", node.GetInt().Value);
 			}
 			else
 			{

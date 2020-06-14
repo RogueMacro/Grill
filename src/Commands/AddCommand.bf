@@ -9,7 +9,7 @@ namespace Grill.Commands
 	{
 		public void Execute(String package, String path)
 		{
-			if (path.Length >= 2 && path[1] != ':')
+			if (Program.IsDebug && !path.Contains(':'))
 			{
 				var cwd = scope String();
 				Directory.GetCurrentDirectory(cwd);
@@ -22,13 +22,12 @@ namespace Grill.Commands
 			Path.InternalCombine(packagePath, SpecialFolder.PackagesFolder, package);
 			if (Directory.Exists(packagePath))
 			{
-				Program.Debug("Project path: {}", path);
-				var projectFilePath = scope String();
-				Path.InternalCombine(projectFilePath, packagePath, "BeefSpace.toml");
-				if (File.Exists(projectFilePath))
+				var workspaceFilePath = scope String();
+				Path.InternalCombine(workspaceFilePath, path, "BeefSpace.toml");
+				if (File.Exists(workspaceFilePath))
 				{
 					var projectFile = scope String();
-					File.ReadAllText(projectFilePath, projectFile);
+					File.ReadAllText(workspaceFilePath, projectFile);
 					let result = TomlSerializer.Read(projectFile);
 					if (result case .Ok(let doc))
 					{
@@ -42,11 +41,12 @@ namespace Grill.Commands
 								projects
 									.AddChild<TomlTableNode>(package)
 									.AddChild<TomlValueNode>("Path")
-									.SetString(path);
+									.SetString(packagePath);
 
 								var serialized = scope String();
 								TomlSerializer.Write((TomlTableNode) doc, serialized);
-								Console.WriteLine("Serialized: {}", serialized);
+
+								File.WriteAllText(workspaceFilePath, serialized);
 
 								Program.Success("Package added");
 							}
@@ -64,12 +64,12 @@ namespace Grill.Commands
 					}
 					else if (result case .Err(let err))
 					{
-						Program.Error("Failed to parse workspace file: {}", err);
+						Program.Error("Error while parsing workspace file: {}", err);
 					}
 				}
 				else
 				{
-					Program.Error("Could not find project file in '{}'", path);
+					Program.Error("Could not find workspace file");
 				}
 			}
 			else

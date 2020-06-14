@@ -1,7 +1,7 @@
 FileVersion = 1
 LastConfig = "grill add"
 LastPlatform = "Win64"
-RecentFilesList = ["c:\\dev\\Beef\\Grill\\src\\Commands\\AddCommand.bf", "c:\\dev\\Beef\\grill\\src\\Commands\\InstallCommand.bf", "c:\\dev\\Beef\\grill\\src\\Program.bf", "c:\\dev\\Beef\\grill\\src\\Git.bf", "c:\\Users\\Willi\\AppData\\Local\\BeefLang\\BeefLibs\\corlib\\src\\Diagnostics\\Process.bf", "c:\\dev\\Beef\\bpm\\src\\Networking\\Github.bf", "c:\\dev\\Beef\\bpm\\src\\Commands\\InstallCommand.bf"]
+RecentFilesList = ["c:\\dev\\Beef\\Grill\\src\\Commands\\AddCommand.bf", "c:\\Users\\Willi\\AppData\\Local\\BeefLang\\BeefLibs\\corlib\\src\\Diagnostics\\Process.bf", "c:\\dev\\Beef\\bpm\\src\\Networking\\Github.bf", "c:\\dev\\Beef\\bpm\\src\\Commands\\InstallCommand.bf"]
 
 [MainWindow]
 X = 64
@@ -42,39 +42,13 @@ DefaultDocumentsTabbedView = true
 Type = "TabbedView"
 
 [[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "Git.bf"
-TabWidth = 59.6
-Type = "SourceViewPanel"
-FilePath = "c:\\dev\\Beef\\grill\\src\\Git.bf"
-CursorPos = 1130
-VertPos = 462.3333
-ProjectName = "Grill"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "InstallCommand.bf"
-TabWidth = 134.8
-Type = "SourceViewPanel"
-FilePath = "c:\\dev\\Beef\\grill\\src\\Commands\\InstallCommand.bf"
-CursorPos = 583
-ProjectName = "Grill"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
-TabLabel = "Program.bf"
-TabWidth = 92.4
-Type = "SourceViewPanel"
-FilePath = "c:\\dev\\Beef\\grill\\src\\Program.bf"
-CursorPos = 1214
-VertPos = 1572.25
-ProjectName = "Grill"
-
-[[MainDockingFrame.DockedWidgets.DockedWidgets.Tabs]]
 Active = true
 TabLabel = "AddCommand.bf"
 TabWidth = 124.4
 Type = "SourceViewPanel"
 FilePath = "c:\\dev\\Beef\\grill\\src\\Commands\\AddCommand.bf"
-CursorPos = 1557
-VertPos = 543.0834
+CursorPos = 992
+VertPos = 297.6667
 ProjectName = "Grill"
 
 [[MainDockingFrame.DockedWidgets]]

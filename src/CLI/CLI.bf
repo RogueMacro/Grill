@@ -46,14 +46,18 @@ namespace Grill.CLI
 				// Option
 				if (arg.StartsWith('-')) 
 				{
-					commandCall.Options.Add(arg);
+					commandCall.Options.Add(new String()..Set(arg));
 				}
 				// Command
 				else if (arg.IsAlpha)
 				{
-					if (commandCall != null)
+					if (calls.Count > 0)
+					{
 						calls.Add(commandCall);
-					commandCall = scope:: .();
+						commandCall = scope:: .();
+					}
+
+					commandCall.Command.Set(arg);
 				}
 				// Multiple command calls (same options). Example: > install+add mypackage --verbose
 				else if (arg.IsAlphaOr('+'))
@@ -65,9 +69,12 @@ namespace Grill.CLI
 				// Option value
 				else
 				{
-					commandCall.Options.Add(arg);
+					commandCall.Options.Add(new String()..Set(arg));
 				}
 			}
+
+			if (!commandCall.Command.IsEmpty)
+				calls.Add(commandCall);
 
 			// No commands called
 			if (calls.IsEmpty)
@@ -80,13 +87,16 @@ namespace Grill.CLI
 			{
 				let result = GetCommand(call.Command);
 				if (result case .Ok(let commandInstance))
+				{
 					RunCommand(commandInstance, call.Options);
+					delete commandInstance;
+				}
 				else
 					FatalError("Unknown command: {}", call.Command);
 			}
 		}
 
-		private static void RunCommand(ICommand command, Span<String> options)
+		private static void RunCommand(ICommand command, List<String> options)
 		{
 			CurrentVerbosity = .Normal;
 
@@ -96,9 +106,11 @@ namespace Grill.CLI
 				{
 				case "--verbose", "-v":
 					CurrentVerbosity = .Verbose;
+					options.DeleteAndRemove(option);
 					break;
 				case "--quiet", "-q":
 					CurrentVerbosity = .Quiet;
+					options.DeleteAndRemove(option);
 					break;
 				}
 			}
@@ -113,23 +125,48 @@ namespace Grill.CLI
 					case typeof(String):
 						field.SetValue(command, GetStringOption(option.Name, option.Short));
 						break;
-					case typeof(String[]):
-						field.SetValue(command, GetMultipleOptions(option.Name, option.Short));
+					case typeof(List<String>):
+						var optionValues = GetMultipleOptions(option.Name, option.Short);
+						field.SetValue(command, optionValues);
+						for (var value in optionValues)
+							options.Remove(value);
 						break;
 					case typeof(bool):
 						field.SetValue(command, GetOption(option.Name, option.Short));
 						break;
 					default:
-						Error("Command option field has invalid type: {}", field.Name);
-					}	
+						var typename = scope String();
+						field.FieldType.GetName(typename);
+						FatalError("Command option field '{}' has invalid type: {}", field.Name, typename);
+					}
+
+					RemoveOption(option.Name, option.Short);
 				}
 				else
-				{
-					Error("Could not find field matching option: {}", option.Name);
-				}
+					FatalError("Could not find field matching option: {}", option.Name);
+			}
+
+			if (options.Count == 1)
+				FatalError("Unknown option: {}", options[0]);
+			else if (options.Count > 1)
+			{
+				var str = scope String()..Join(", ", options.GetEnumerator());
+				FatalError("Unknown options: {}", str);
 			}
 
 			command.Execute();
+
+			void RemoveOption(String verbose, String short)
+			{
+				for (var option in options)
+				{
+					if (IsOption(option, verbose, short))
+					{
+						options.DeleteAndRemove(option);
+						break;
+					}
+				}
+			}
 
 			Result<FieldInfo> GetField(StringView name)
 			{
@@ -139,7 +176,7 @@ namespace Grill.CLI
 				return .Err;
 			}
 
-			bool GetOption(StringView verbose, StringView short = "")
+			bool GetOption(String verbose, String short = "")
 			{
 				for (var option in options)
 				{
@@ -150,7 +187,7 @@ namespace Grill.CLI
 				return false;
 			}
 
-			Result<String> GetStringOption(StringView verbose, StringView short = "")
+			Result<String> GetStringOption(String verbose, String short = "")
 			{
 				var enumerator = options.GetEnumerator();
 				for (var option in enumerator)
@@ -163,33 +200,38 @@ namespace Grill.CLI
 							FatalError("Option {} has no corresponding value", option);
 					}
 				}
+
+				return .Err;
 			}
 
-			Result<List<String>> GetMultipleOptions(StringView verbose, StringView short = "")
+			List<String> GetMultipleOptions(String verbose, String short = "")
 			{
-				/*var enumerator = options.GetEnumerator();
+				var enumerator = options.GetEnumerator();
 				var isOption = false;
-				var result = scope List<String>();
+				var containsOption = options.Contains(verbose) || options.Contains(short);
+				var result = new List<String>();
 
 				for (var option in enumerator)
 				{
-					if (IsOption(option, verbose, short))
-					{
-						isOption = true;
-						continue;
-					}
-
 					if (!isOption)
-						continue;
-
+					{
+						if ((!containsOption && !option.StartsWith('-')) ||
+							(containsOption && IsOption(option, verbose, short)))
+							isOption = true;
+						else
+							continue;
+					}
+					
 					if (option.StartsWith('-'))
 						break;
 
+					result.Add(option);
+				}
 
-				}*/
+				return result;
 			}
 
-			bool IsOption(StringView option, StringView verbose, StringView short = "")
+			bool IsOption(String option, String verbose, String short = "")
 			{
 				if ((option.Length >= 3 && StringView(option, 2) == verbose) ||
 					(option.Length >= 2 && StringView(option, 1) == short))
@@ -243,7 +285,12 @@ namespace Grill.CLI
 		public static void FatalError(StringView fmt, params Object[] args)
 		{
 			Error(fmt, params args);
+#if DEBUG
+			Console.Write("Press any key to exit...");
+			Console.ReadKey();
+#endif
 			Cpp.exit(1);
+
 		}
 
 		public static void Success(StringView fmt, params Object[] args) => Print(.Green, scope String()..AppendF("[Success] {}", fmt), params args);

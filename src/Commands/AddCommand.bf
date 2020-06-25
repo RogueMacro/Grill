@@ -2,6 +2,7 @@ using Grill.CLI;
 using JetFistGames.Toml;
 using System;
 using System.IO;
+using System.Collections;
 
 namespace Grill.Commands
 {
@@ -15,7 +16,6 @@ namespace Grill.Commands
 				.About("Adds package(s) to a workspace")
 				.Option(
 					new CommandOption("packages", "Package(s) to add")
-					.Multiple()
 					.Required()
 				)
 				.Option(
@@ -25,7 +25,7 @@ namespace Grill.Commands
 
 		public override CommandInfo Info => mInfo;
 
-		public String[] Packages;
+		public List<String> Packages ~ DeleteContainerAndItems!(_);
 		public String Path;
 
 		public override void Execute()
@@ -37,7 +37,7 @@ namespace Grill.Commands
 			var workspaceFilePath = scope String();
 			IO.Path.InternalCombine(workspaceFilePath, Path, "BeefSpace.toml");
 
-			TomlTableNode workspace;
+			TomlTableNode workspace = null;
 			ReadTomlFile!(workspaceFilePath, workspace);
 
 			var projectsResult = workspace["Projects"].GetTable();
@@ -58,7 +58,7 @@ namespace Grill.Commands
 			var projectFilePath = scope String();
 			IO.Path.InternalCombine(projectFilePath, Path, "BeefProj.toml");
 
-			TomlTableNode project;
+			TomlTableNode project = null;
 			ReadTomlFile!(projectFilePath, project);
 
 			var dependenciesResult = project["Dependencies"].GetTable();

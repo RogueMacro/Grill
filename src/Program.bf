@@ -12,14 +12,6 @@ namespace Grill
 	{
 		static void Main(String[] args)
 		{
-			/*Console.WriteLine(Test());
-
-			String Test()
-			{
-				return scope String();
-			}
-
-			return;*/
 			CLI.RegisterCommand<InstallCommand>("install");
 			CLI.RegisterCommand<AddCommand>("add");
 

@@ -8,10 +8,8 @@ namespace Grill.CLI
 		public String Name = new .() ~ delete _;
 		public String Description = new .() ~ delete _;
 
-		public bool IsMultiple = false;
 		public bool IsRequired = false;
 
-		public String Alias = new .() ~ delete _;
 		public String Short = new .() ~ delete _;
 
 		public List<String> Requires = new .() ~ DeleteContainerAndItems!(_);
@@ -23,21 +21,9 @@ namespace Grill.CLI
 			Description.Set(description);
 		}
 
-		public Self Multiple()
-		{
-			IsMultiple = true;
-			return this;
-		}
-
 		public Self Required()
 		{
 			IsRequired = true;
-			return this;
-		}
-
-		public Self Alias(StringView alias)
-		{
-			Alias.Set(alias);
 			return this;
 		}
 

@@ -2,6 +2,7 @@ using Grill.API;
 using Grill.CLI;
 using System;
 using System.IO;
+using System.Collections;
 
 namespace Grill.Commands
 {
@@ -15,7 +16,7 @@ namespace Grill.Commands
 				.About("Install Beef package(s)")
 				.Option(
 					new CommandOption("packages", "The package(s) to install")
-					.Multiple()						
+					.Required()
 				)
 				.Option(
 					new CommandOption("local", "Install the package(s) only to this project")
@@ -25,20 +26,26 @@ namespace Grill.Commands
 
 		public override CommandInfo Info => mInfo;
 
-		public String[] Packages;
+		public List<String> Packages ~ DeleteContainerAndItems!(_);
 		public bool Local;
 
 		public override void Execute()
 		{
 			for (var package in Packages)
 			{
+				var path = scope String();
+				Path.InternalCombine(path, SpecialFolder.PackagesFolder, package);
+
+				if (Directory.Exists(path))
+				{
+					CLI.Warning("{} is already installed", package);
+					continue;
+				}
+
 				CLI.Info("Installing {}", package);
 
 				var url = scope String();
 				API.GetPackageRepoUrl(package, url);
-
-				var path = scope String();
-				Path.InternalCombine(path, SpecialFolder.PackagesFolder, package);
 
 				let result = Git.Clone(url, path);
 				if (result case .Ok)

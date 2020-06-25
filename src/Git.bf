@@ -37,7 +37,7 @@ namespace Grill
 					command.AppendF("{} ", arg);
 			}
 
-			if (CLI.CurrentVerbosity == .Verbose)
+			if (CLI.CurrentVerbosity != .Verbose)
 				command.Append("> /dev/null 2>&1");
 
 			command.Append('"');

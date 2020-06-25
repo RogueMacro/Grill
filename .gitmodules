@@ -1,0 +1,3 @@
+[submodule "libs/beef-toml"]
+	path = libs/beef-toml
+	url = https://github.com/killamaaki/beef-toml

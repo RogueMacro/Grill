@@ -1,6 +1,8 @@
+using Grill.CLI;
 using System;
 using System.IO;
 using System.Diagnostics;
+using Grill.Utility;
 
 namespace Grill
 {
@@ -9,12 +11,10 @@ namespace Grill
 		public static String GitPath = new String();
 		public static String ExePath = new String();
 
-		public static void Init()
+		public static this()
 		{
 			Path.InternalCombine(GitPath, SpecialFolder.SourceDirectory, "Git");
 			Path.InternalCombine(ExePath, GitPath, "bin/git.exe");
-
-			Execute("config", "http.sslVerify", "false");
 		}
 
 		public static Result<void> Clone(String url, String to)
@@ -37,12 +37,11 @@ namespace Grill
 					command.AppendF("{} ", arg);
 			}
 
-			if (!Program.IsDebug)
+			if (CLI.CurrentVerbosity == .Verbose)
 				command.Append("> /dev/null 2>&1");
 
 			command.Append('"');
 
-			Program.Debug("Executing command: '{}'", command);
 			return Cpp.system(command) == 0 ? .Ok : .Err;
 		}
 

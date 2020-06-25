@@ -12,7 +12,7 @@ ProductVersion = "0.0.1"
 [Configs.Debug.Win64]
 BuildCommandsOnCompile = "Never"
 BuildCommandsOnRun = "Never"
-PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y"]
+PostBuildCmds = ["xcopy $(ProjectDir)/bin $(TargetDir) /e /c /i /q /y"]
 
 [Configs.Release.Win64]
 BuildCommandsOnCompile = "Never"
@@ -28,7 +28,9 @@ BuildCommandsOnRun = "Never"
 
 [Configs."grill add".Win64]
 BeefLibType = "Static"
-PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y"]
+BuildCommandsOnCompile = "Never"
+BuildCommandsOnRun = "Never"
+PostBuildCmds = ["xcopy $(ProjectDir)/bin $(TargetDir) /e /c /i /q /y"]
 DebugCommandArguments = "add steak.logging -debug"
 PreprocessorMacros = ["DEBUG"]
 
@@ -40,10 +42,21 @@ PreprocessorMacros = ["DEBUG"]
 BeefLibType = "Static"
 BuildCommandsOnCompile = "Never"
 BuildCommandsOnRun = "Never"
-PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y"]
+PostBuildCmds = ["xcopy $(ProjectDir)/bin $(TargetDir) /e /c /i /q /y"]
 DebugCommandArguments = "install steak.logging -debug"
 PreprocessorMacros = ["DEBUG"]
 
 [Configs."grill install".Win32]
+BeefLibType = "Static"
+PreprocessorMacros = ["DEBUG"]
+
+[Configs."grill --help".Win64]
+BeefLibType = "Static"
+BuildCommandsOnCompile = "Never"
+BuildCommandsOnRun = "Never"
+PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y"]
+PreprocessorMacros = ["DEBUG"]
+
+[Configs."grill --help".Win32]
 BeefLibType = "Static"
 PreprocessorMacros = ["DEBUG"]

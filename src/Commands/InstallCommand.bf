@@ -1,4 +1,5 @@
 using Grill.API;
+using Grill.CLI;
 using System;
 using System.IO;
 
@@ -7,26 +8,44 @@ namespace Grill.Commands
 	[Reflect, AlwaysInclude(AssumeInstantiated=true, IncludeAllMethods=true)]
 	public class InstallCommand : ICommand
 	{
-		public bool Execute(String package, bool global)
+		public this() {}
+
+		private static CommandInfo mInfo =
+			new CommandInfo("install")
+				.About("Install Beef package(s)")
+				.Option(
+					new CommandOption("packages", "The package(s) to install")
+					.Multiple()						
+				)
+				.Option(
+					new CommandOption("local", "Install the package(s) only to this project")
+					.Short("l")
+				)
+			~ delete _;
+
+		public override CommandInfo Info => mInfo;
+
+		public String[] Packages;
+		public bool Local;
+
+		public override void Execute()
 		{
-			if (Program.IsDebug)
-				Program.Info("Installing {}, global={}", package, global);
-			else
-				Program.Info("Installing {}", package);
+			for (var package in Packages)
+			{
+				CLI.Info("Installing {}", package);
 
-			var url = scope String();
-			API.GetPackageRepoUrl(package, url);
+				var url = scope String();
+				API.GetPackageRepoUrl(package, url);
 
-			var path = scope String();
-			Path.InternalCombine(path, SpecialFolder.PackagesFolder, package);
+				var path = scope String();
+				Path.InternalCombine(path, SpecialFolder.PackagesFolder, package);
 
-			let result = Git.Clone(url, path);
-			if (result case .Ok)
-				Program.Success("Installed successfully");
-			else
-				Program.Error("Installation failed");
-
-			return result case .Ok;
+				let result = Git.Clone(url, path);
+				if (result case .Ok)
+					CLI.Success("\rInstalled successfully");
+				else
+					CLI.Error("\rInstallation failed");
+			}
 		}
 	}
 }

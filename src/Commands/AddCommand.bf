@@ -1,89 +1,150 @@
+using Grill.CLI;
+using JetFistGames.Toml;
 using System;
 using System.IO;
-using JetFistGames.Toml;
 
 namespace Grill.Commands
 {
 	[Reflect, AlwaysInclude(AssumeInstantiated=true, IncludeAllMethods=true)]
 	public class AddCommand : ICommand
 	{
-		public void Execute(String package, String path)
+		public this() {}
+
+		private static CommandInfo mInfo =
+			 new CommandInfo("install")
+				.About("Adds package(s) to a workspace")
+				.Option(
+					new CommandOption("packages", "Package(s) to add")
+					.Multiple()
+					.Required()
+				)
+				.Option(
+					new CommandOption("path", "Relative path to the workspace")
+				)
+			~ delete _;
+
+		public override CommandInfo Info => mInfo;
+
+		public String[] Packages;
+		public String Path;
+
+		public override void Execute()
 		{
-			if (Program.IsDebug && !path.Contains(':'))
+			// TODO: Change package directory name to <Package-x.x.x>
+
+			// Read workspace file
+			
+			var workspaceFilePath = scope String();
+			IO.Path.InternalCombine(workspaceFilePath, Path, "BeefSpace.toml");
+
+			TomlTableNode workspace;
+			ReadTomlFile!(workspaceFilePath, workspace);
+
+			var projectsResult = workspace["Projects"].GetTable();
+			if (projectsResult case .Err)
+				projectsResult = workspace.AddChild<TomlTableNode>("Projects");
+
+			var projects = (TomlTableNode) projectsResult.Get();
+
+			// Check if workspace has a startup project
+
+			bool hasStartupProject = true;
+
+			if (workspace.FindChild("Workspace") == null || workspace["Workspace"]["StartupProject"] == null)
+				hasStartupProject = false;
+
+			// If it has a startup project, add packages as a dependency to that
+
+			var projectFilePath = scope String();
+			IO.Path.InternalCombine(projectFilePath, Path, "BeefProj.toml");
+
+			TomlTableNode project;
+			ReadTomlFile!(projectFilePath, project);
+
+			var dependenciesResult = project["Dependencies"].GetTable();
+			if (dependenciesResult case .Err)
+				project.AddChild<TomlTableNode>("Dependencies");
+
+			var dependencies = project["Dependencies"].GetTable().Get();
+
+			for (var package in Packages)
 			{
-				var cwd = scope String();
-				Directory.GetCurrentDirectory(cwd);
-				var fullPath = scope:: String();
-				Path.InternalCombine(fullPath, cwd, path);
-				path.Set(fullPath);
+				var packagePath = scope String();
+				IO.Path.InternalCombine(packagePath, SpecialFolder.PackagesFolder, package);
+	
+				if (!Directory.Exists(packagePath) && !CLI.Ask("Package is not installed, but was found in the package registry. Install?"))
+				{
+					let install = scope InstallCommand();
+					install.Execute();
+				}
+
+				// Add to workspace
+
+				if (projects.FindChild(package) != null)
+				{
+					CLI.Warning("{} is already added to this workspace", package);
+					continue;
+				}
+
+				projects
+					.AddChild<TomlTableNode>(package)
+					.AddChild<TomlValueNode>("Path")
+					.SetString(packagePath);
+
+				if (!hasStartupProject)
+					continue;
+
+				// Add as dependency to Startup project
+
+				if (dependencies.FindChild(package) == null)
+					dependencies.AddChild<TomlValueNode>(package).SetString("*");
 			}
 
-			var packagePath = scope String();
-			Path.InternalCombine(packagePath, SpecialFolder.PackagesFolder, package);
-			if (Directory.Exists(packagePath))
+			// Write to workspace file
+
+			var serializedWorkspace = scope String();
+			TomlSerializer.Write(workspace, serializedWorkspace);
+
+			File.WriteAllText(workspaceFilePath, serializedWorkspace);
+
+			// Write to project file
+
+			var serializedProject = scope String();
+			TomlSerializer.Write(project, serializedProject);
+
+			File.WriteAllText(projectFilePath, serializedProject);
+
+			delete workspace;
+		}
+
+		private mixin ReadTomlFile(StringView path, TomlTableNode doc)
+		{
+			if (!File.Exists(path))
 			{
-				var workspaceFilePath = scope String();
-				Path.InternalCombine(workspaceFilePath, path, "BeefSpace.toml");
-				if (File.Exists(workspaceFilePath))
-				{
-					var projectFile = scope String();
-					File.ReadAllText(workspaceFilePath, projectFile);
-					let result = TomlSerializer.Read(projectFile);
-					if (result case .Ok(let doc))
-					{
-						var projectsResult = doc["Projects"].GetTable();
-						if (projectsResult case .Ok(let projects))
- 						{
-							if (projects.FindChild(package) == null)
-							{
-								Program.Info("Adding package: {}", package);
-
-								projects
-									.AddChild<TomlTableNode>(package)
-									.AddChild<TomlValueNode>("Path")
-									.SetString(packagePath);
-
-								var serialized = scope String();
-								TomlSerializer.Write((TomlTableNode) doc, serialized);
-
-								File.WriteAllText(workspaceFilePath, serialized);
-
-								Program.Success("Package added");
-							}
-							else
-							{
-								Program.Error("Package already added to this project");
-							}
-						}
-						else
-						{
-							Program.Error("Failed to get projects from workspace file");
-						}
-
-						delete doc;
-					}
-					else if (result case .Err(let err))
-					{
-						Program.Error("Error while parsing workspace file: {}", err);
-					}
-				}
-				else
-				{
-					Program.Error("Could not find workspace file");
-				}
+				var filename = scope String();
+				IO.Path.GetFileName(path, filename);
+				CLI.Error("Could not find TOML file: '{}'", filename);
+				return;
 			}
-			else
+
+			var workspaceFile = scope String();
+			let fileResult = File.ReadAllText(path, workspaceFile);
+			if (fileResult case .Err(let err))
 			{
-				if (Program.Ask("Package is not installed, but was found in the package registry. Install?"))
-				{
-					let command = scope InstallCommand();
-					let isInstalled = command.Execute(package, false);
-					if (!isInstalled)
-						return;
-
-					Execute(package, path);
-				}
+				CLI.Error("Could not read '{}': {}", path, err);
+				return;
 			}
+
+			let tomlResult = TomlSerializer.Read(workspaceFile);
+			if (tomlResult case .Err(let err))
+			{
+				var filename = scope String();
+				IO.Path.GetFileName(path, filename);
+				CLI.Error("Error while parsing '{}': {}", filename, err);
+				return;
+			}
+
+			doc = (.) tomlResult.Get();
 		}
 	}
 }

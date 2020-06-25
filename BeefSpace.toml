@@ -1,5 +1,6 @@
 FileVersion = 1
-Projects = {Grill = {Path = "."}, BeefToml = {Path = "libs/beef-toml/lib"}, "steak.logging" = {Path = "c:\\dev\\Beef\\grill\\build\\grill add_Win64\\Grill\\packages\\steak.logging"}}
+Projects = {Grill = {Path = "."}, BeefToml = {Path = "libs/beef-toml/lib"}}
+Unlocked = ["corlib"]
 
 [Workspace]
 StartupProject = "Grill"
@@ -9,3 +10,9 @@ ConfigSelections = {Grill = {Config = "Debug"}}
 
 [Configs."grill install".Win32]
 ConfigSelections = {Grill = {Config = "Debug"}}
+
+[Configs."grill --help".Win32]
+ConfigSelections = {Grill = {Config = "Debug"}, BeefToml = {Config = "grill add"}}
+
+[Configs."grill --help".Win64]
+ConfigSelections = {BeefToml = {Config = "Debug"}}

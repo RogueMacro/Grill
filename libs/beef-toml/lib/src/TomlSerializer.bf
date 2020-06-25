@@ -98,7 +98,9 @@ namespace JetFistGames.Toml
 			}
 			else if(node.Kind == .String)
 			{
-				output.AppendF("\"{0}\"", node.GetString().Value..Replace("\\", "\\\\"));
+				node.GetString().Value.Replace("\\", "\\\\");
+				node.GetString().Value.Replace("\"", "");
+				output.AppendF("\"{0}\"", node.GetString().Value);
 			}
 			else if(node.Kind == .Int)
 			{

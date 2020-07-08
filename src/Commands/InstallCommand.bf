@@ -9,9 +9,7 @@ namespace Grill.Commands
 	[Reflect, AlwaysInclude(AssumeInstantiated=true, IncludeAllMethods=true)]
 	public class InstallCommand : ICommand
 	{
-		public this() {}
-
-		private static CommandInfo mInfo =
+		private CommandInfo mInfo =
 			new CommandInfo("install")
 				.About("Install Beef package(s)")
 				.Option(
@@ -34,7 +32,20 @@ namespace Grill.Commands
 			for (var package in Packages)
 			{
 				var path = scope String();
-				Path.InternalCombine(path, SpecialFolder.PackagesFolder, package);
+				if (Local)
+				{
+					if (!File.Exists("BeefSpace.toml"))
+					{
+						CLI.Error("Cannot install package to non-workspace directory");
+						continue;
+					}
+
+					Path.InternalCombine(path, "Packages", package);
+				}	
+				else
+				{
+					Path.InternalCombine(path, SpecialFolder.PackagesFolder, package);
+				}	
 
 				if (Directory.Exists(path))
 				{
@@ -43,9 +54,14 @@ namespace Grill.Commands
 				}
 
 				CLI.Info("Installing {}", package);
-
+				
 				var url = scope String();
-				API.GetPackageRepoUrl(package, url);
+				if (package.Contains("http") &&
+					package.Contains("://") &&
+					package.Contains("github.com/"))
+					url.Set(package);
+				else
+					API.GetPackageRepoUrl(package, url);
 
 				let result = Git.Clone(url, path);
 				if (result case .Ok)

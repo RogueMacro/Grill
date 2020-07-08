@@ -24,11 +24,11 @@ namespace Grill.CLI
 
 		public ICommand Instantiate()
 		{
-			let result = Type.CreateObject();
+			let result = this.Type.CreateObject();
 			if (result case .Ok(let val))
 				return (.) result.Get();
 
-			CLI.Error("Could not instantiate command: {}", Name);
+			CLI.Error("Could not instantiate command ({})", Name);
 			return null;
 		}
 	}

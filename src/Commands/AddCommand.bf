@@ -11,7 +11,7 @@ namespace Grill.Commands
 	{
 		public this() {}
 
-		private static CommandInfo mInfo =
+		private CommandInfo mInfo =
 			 new CommandInfo("install")
 				.About("Adds package(s) to a workspace")
 				.Option(

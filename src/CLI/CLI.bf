@@ -39,6 +39,8 @@ namespace Grill.CLI
 		{
 			List<CommandCall> calls = scope .();
 			CommandCall commandCall = scope .();
+
+			// TODO: Implement multiple command
 			List<StringView> extraCommands = null;
 
 			for (var arg in args)
@@ -46,10 +48,10 @@ namespace Grill.CLI
 				// Option
 				if (arg.StartsWith('-')) 
 				{
-					commandCall.Options.Add(new String()..Set(arg));
+					commandCall.AddOption(arg);
 				}
 				// Command
-				else if (arg.IsAlpha)
+				else if (IsCommand(arg))
 				{
 					if (calls.Count > 0)
 					{
@@ -60,21 +62,24 @@ namespace Grill.CLI
 					commandCall.Command.Set(arg);
 				}
 				// Multiple command calls (same options). Example: > install+add mypackage --verbose
-				else if (arg.IsAlphaOr('+'))
+				else if (arg.IsAlphaOr('+') && arg.Contains('+'))
 				{
 					extraCommands = scope:: .();
 					for (let command in arg.Split('+'))
 						extraCommands.Add(command);
 				}
+				else if (commandCall.Command.IsEmpty)
+				{
+					FatalError("Unknown command: {}", arg);
+				}
 				// Option value
 				else
 				{
-					commandCall.Options.Add(new String()..Set(arg));
+					commandCall.AddOption(arg);
 				}
 			}
 
-			if (!commandCall.Command.IsEmpty)
-				calls.Add(commandCall);
+			calls.Add(commandCall);
 
 			// No commands called
 			if (calls.IsEmpty)
@@ -88,12 +93,15 @@ namespace Grill.CLI
 				let result = GetCommand(call.Command);
 				if (result case .Ok(let commandInstance))
 				{
+					if (commandInstance == null)
+						continue;
+
 					RunCommand(commandInstance, call.Options);
 					delete commandInstance;
 				}
 				else
 					FatalError("Unknown command: {}", call.Command);
-			}
+			}	
 		}
 
 		private static void RunCommand(ICommand command, List<String> options)
@@ -238,6 +246,14 @@ namespace Grill.CLI
 					return true;
 				return false;
 			}
+		}
+
+		public static bool IsCommand(StringView name)
+		{
+			for (var entry in Commands)
+				if (entry.Name == name)
+					return true;
+			return false;
 		}
 
 		public static Result<ICommand> GetCommand(StringView name)

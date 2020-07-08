@@ -43,7 +43,7 @@ BeefLibType = "Static"
 BuildCommandsOnCompile = "Never"
 BuildCommandsOnRun = "Never"
 PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y"]
-DebugCommandArguments = "install steak.logging --verbose"
+DebugCommandArguments = "install mypacakge --verbose"
 PreprocessorMacros = ["DEBUG"]
 
 [Configs."grill install".Win32]

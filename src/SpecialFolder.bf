@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.IO;
 using Grill.Utility;
 
@@ -6,7 +7,8 @@ namespace Grill
 {
 	public static class SpecialFolder
 	{
-		private static String mAppData = new String(Cpp.getenv("APPDATA"));
+		/*private static String mAppData = new String(Cpp.getenv("APPDATA"));*/
+		private static String mAppData = new String(Environment.GetEnvironmentVariable("APPDATA"));
 
 		public static StringView AppData => mAppData;
 

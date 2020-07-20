@@ -280,7 +280,7 @@ namespace Grill.CLI
 				while (true)
 				{
 					Console.Write("{} [y/n] ", text);
-					let char = Console.ReadKey();
+					let char = Console.Read();
 					if (char == 'y')
 						return true;
 					else if (char == 'n')
@@ -303,7 +303,7 @@ namespace Grill.CLI
 			Error(fmt, params args);
 #if DEBUG
 			Console.Write("Press any key to exit...");
-			Console.ReadKey();
+			Console.In.Read();
 #endif
 			Cpp.exit(1);
 

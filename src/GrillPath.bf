@@ -6,7 +6,7 @@ namespace Grill
 {
 	public static class GrillPath
 	{
-		private static String mAppData = new String(Cpp.getenv("APPDATA"));
+		private static String mAppData = Environment.GetEnvironmentVariable("APPDATA") ~ delete _;
 
 		public static StringView AppData => mAppData;
 

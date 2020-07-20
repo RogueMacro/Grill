@@ -12,10 +12,5 @@ namespace System
 				Console.Write(' ');
 			Console.Write('\r');
 		}
-
-		public static char8 ReadKey()
-		{
-			return Cpp.getch();
-		}
 	}
 }

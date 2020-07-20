@@ -17,7 +17,8 @@ namespace Grill.Commands
 					new CommandOption("default-namespace", "Auto-rename the base namespace for this package")
 					.Short("n")
 					.Requires("override")
-				);
+				)
+			~ delete _;
 
 		public override CommandInfo Info => mInfo;
 

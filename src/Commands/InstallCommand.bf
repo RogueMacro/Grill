@@ -11,7 +11,7 @@ namespace Grill.Commands
 	[Reflect, AlwaysInclude(AssumeInstantiated=true, IncludeAllMethods=true)]
 	public class InstallCommand : ICommand
 	{
-		private static CommandInfo mInfo =
+		private CommandInfo mInfo =
 			new CommandInfo("install")
 				.About("Install Beef package(s)")
 				.Option(

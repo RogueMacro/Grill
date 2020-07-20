@@ -1,4 +1,4 @@
-using Grill.CLI;
+using CowieCLI;
 using JetFistGames.Toml;
 using System;
 using System.IO;
@@ -9,10 +9,8 @@ namespace Grill.Commands
 	[Reflect, AlwaysInclude(AssumeInstantiated=true, IncludeAllMethods=true)]
 	public class AddCommand : ICommand
 	{
-		public this() {}
-
-		private CommandInfo mInfo =
-			 new CommandInfo("install")
+		private static CommandInfo mInfo =
+			new CommandInfo("install")
 				.About("Adds package(s) to a workspace")
 				.Option(
 					new CommandOption("packages", "Package(s) to add")
@@ -30,8 +28,6 @@ namespace Grill.Commands
 
 		public override void Execute()
 		{
-			// TODO: Change package directory name to <Package-x.x.x>
-
 			// Read workspace file
 			
 			var workspaceFilePath = scope String();
@@ -70,9 +66,9 @@ namespace Grill.Commands
 			for (var package in Packages)
 			{
 				var packagePath = scope String();
-				IO.Path.InternalCombine(packagePath, SpecialFolder.PackagesFolder, package);
+				IO.Path.InternalCombine(packagePath, GrillPath.PackagesDirectory, package);
 	
-				if (!Directory.Exists(packagePath) && !CLI.Ask("Package is not installed, but was found in the package registry. Install?"))
+				if (!Directory.Exists(packagePath) && !CowieCLI.Ask("Package is not installed, but was found in the package registry. Install?"))
 				{
 					let install = scope InstallCommand();
 					install.Execute();
@@ -82,7 +78,7 @@ namespace Grill.Commands
 
 				if (projects.FindChild(package) != null)
 				{
-					CLI.Warning("{} is already added to this workspace", package);
+					CowieCLI.Warning("{} is already added to this workspace", package);
 					continue;
 				}
 
@@ -123,7 +119,7 @@ namespace Grill.Commands
 			{
 				var filename = scope String();
 				IO.Path.GetFileName(path, filename);
-				CLI.Error("Could not find TOML file: '{}'", filename);
+				CowieCLI.Error("Could not find TOML file: '{}'", filename);
 				return;
 			}
 
@@ -131,7 +127,7 @@ namespace Grill.Commands
 			let fileResult = File.ReadAllText(path, workspaceFile);
 			if (fileResult case .Err(let err))
 			{
-				CLI.Error("Could not read '{}': {}", path, err);
+				CowieCLI.Error("Could not read '{}': {}", path, err);
 				return;
 			}
 
@@ -140,7 +136,7 @@ namespace Grill.Commands
 			{
 				var filename = scope String();
 				IO.Path.GetFileName(path, filename);
-				CLI.Error("Error while parsing '{}': {}", filename, err);
+				CowieCLI.Error("Error while parsing '{}': {}", filename, err);
 				return;
 			}
 

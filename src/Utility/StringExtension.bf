@@ -31,6 +31,43 @@ namespace System
 			return true;
 		}
 
+		public bool IsUrl => IsDomain("");
+
+		public bool IsDomain(StringView domain, bool isHttps = false)
+		{
+			int pos = 0;
+
+			if (isHttps)
+				_Match!("https");
+			else
+				_Match!("http");
+
+			_Find!(':');
+			_Match!("//");
+			_Match!(domain);
+			_Find!('/');
+
+			return true;
+
+			mixin _Find(char8 char)
+			{
+				while (this[pos] != char)
+				{
+					if (++pos >= Length)
+						return false;
+				}
+			}
+
+			mixin _Match(StringView string)
+			{
+				for (; pos < string.Length; pos++)
+				{
+					if (pos >= Length || string[pos] != this[pos])
+						return false;
+				}
+			}
+		}
+
 		public static bool Compare(StringView strA, StringView strB, bool ignoreCase)
 		{
 			if (ignoreCase)

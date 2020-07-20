@@ -1,15 +1,17 @@
 using Grill.API;
-using Grill.CLI;
+using CowieCLI;
 using System;
 using System.IO;
 using System.Collections;
+using JetFistGames.Toml;
+using Grill.Utility;
 
 namespace Grill.Commands
 {
 	[Reflect, AlwaysInclude(AssumeInstantiated=true, IncludeAllMethods=true)]
 	public class InstallCommand : ICommand
 	{
-		private CommandInfo mInfo =
+		private static CommandInfo mInfo =
 			new CommandInfo("install")
 				.About("Install Beef package(s)")
 				.Option(
@@ -29,45 +31,73 @@ namespace Grill.Commands
 
 		public override void Execute()
 		{
+			int dependenciesIndex = Packages.Count;
+			int currentIndex = -1;
+
 			for (var package in Packages)
 			{
-				var path = scope String();
+				currentIndex++;
+
+				var cachePath = scope String();
 				if (Local)
-				{
-					if (!File.Exists("BeefSpace.toml"))
-					{
-						CLI.Error("Cannot install package to non-workspace directory");
-						continue;
-					}
-
-					Path.InternalCombine(path, "Packages", package);
-				}	
+					Path.InternalCombine(cachePath, "Packages", "Cache");
 				else
-				{
-					Path.InternalCombine(path, SpecialFolder.PackagesFolder, package);
-				}	
+					cachePath.Set(GrillPath.CacheDirectory);
 
-				if (Directory.Exists(path))
-				{
-					CLI.Warning("{} is already installed", package);
-					continue;
-				}
-
-				CLI.Info("Installing {}", package);
+				CowieCLI.Print(.Cyan, false, "[Info] Installing {}", package);
 				
 				var url = scope String();
-				if (package.Contains("http") &&
-					package.Contains("://") &&
-					package.Contains("github.com/"))
+				if (package.IsUrl)
 					url.Set(package);
 				else
 					API.GetPackageRepoUrl(package, url);
-
-				let result = Git.Clone(url, path);
-				if (result case .Ok)
-					CLI.Success("\rInstalled successfully");
+			
+				if (Git.Clone(url, cachePath))
+				{
+					Console.Write("\r");
+					CowieCLI.Success("Installed {}", package);
+				}	
 				else
-					CLI.Error("\rInstallation failed");
+				{
+					Console.Write("\r");
+					CowieCLI.Error("Could not install {}", package);
+					continue;
+				}	
+
+				String packageFilePath = scope String();
+				Path.InternalCombine(packageFilePath, cachePath, "Package.toml");
+				if (!File.Exists(packageFilePath))
+				{
+					 
+				}
+
+				var packageFile = scope Package();
+				let tomlReadResult = TomlSerializer.ReadFile(packageFilePath, packageFile);
+
+				if (tomlReadResult case .Err(let err))
+				{
+					CowieCLI.Error("{}", err);
+					continue;
+				}
+
+				var dirPath = scope String();
+				IO.Path.GetDirectoryPath(cachePath, dirPath);
+
+				var newPath = scope String(dirPath);
+				IO.Path.InternalCombine(newPath, scope String()..AppendF("{}-{}", packageFile.Name, packageFile.Version));
+
+				if (Directory.Exists(newPath))
+				{
+					if (currentIndex < dependenciesIndex)
+						CowieCLI.Warning("{} is already installed", package);
+
+					continue;
+				}
+
+				Directory.Move(cachePath, newPath);
+
+				for (var dep in packageFile.Dependencies.Values)
+					Packages.Add(new String((String) dep));
 			}
 		}
 	}

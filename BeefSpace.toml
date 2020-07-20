@@ -1,6 +1,5 @@
 FileVersion = 1
-Projects = {Grill = {Path = "."}, BeefToml = {Path = "libs/beef-toml/lib"}}
-Unlocked = ["corlib"]
+Projects = {Grill = {Path = "."}, BeefToml = {Path = "libs/beef-toml/lib"}, CowieCLI = {Path = "../CowieCLI"}}
 
 [Workspace]
 StartupProject = "Grill"
@@ -16,3 +15,6 @@ ConfigSelections = {Grill = {Config = "Debug"}, BeefToml = {Config = "grill add"
 
 [Configs."grill --help".Win64]
 ConfigSelections = {BeefToml = {Config = "Debug"}}
+
+[Configs.Release.Win64]
+AllocType = "Debug"

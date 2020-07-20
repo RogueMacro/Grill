@@ -1,5 +1,5 @@
 FileVersion = 1
-Projects = {Grill = {Path = "."}, BeefToml = {Path = "libs/beef-toml/lib"}, CowieCLI = {Path = "../CowieCLI"}}
+Projects = {Grill = {Path = "."}, BeefToml = {Path = "libs/beef-toml/lib"}, CowieCLI = {Path = "libs/CowieCLI"}}
 
 [Workspace]
 StartupProject = "Grill"

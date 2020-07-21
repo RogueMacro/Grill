@@ -11,10 +11,13 @@ namespace Grill
 		public static String GitPath = new String();
 		public static String ExePath = new String();
 
-		public static this()
+		public static void Init()
 		{
 			Path.InternalCombine(GitPath, GrillPath.SourceDirectory, "Git");
 			Path.InternalCombine(ExePath, GitPath, "bin/git.exe");
+
+			if (!File.Exists(ExePath))
+				CowieCLI.Error("Git executable not found");
 		}
 
 		public static bool Clone(String url, String to)
@@ -24,6 +27,9 @@ namespace Grill
 
 		private static bool Execute(params StringView[] args)
 		{
+			if (!File.Exists(ExePath))
+				return false;
+
 			var command = scope String()..AppendF("\"\"{}\" ", ExePath);
 
 			for (var arg in args)

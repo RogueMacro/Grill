@@ -6,7 +6,7 @@ namespace Grill.Commands
 	[Reflect, AlwaysInclude(AssumeInstantiated=true, IncludeAllMethods=true)]
 	public class ConfigCommand : ICommand
 	{
-		private static CommandInfo mInfo =
+		private CommandInfo mInfo =
 			new CommandInfo("config")
 				.About("Edit grill config")
 				.Option(
@@ -17,7 +17,8 @@ namespace Grill.Commands
 					new CommandOption("default-namespace", "Auto-rename the base namespace for this package")
 					.Short("n")
 					.Requires("override")
-				);
+				)
+			~ delete _;
 
 		public override CommandInfo Info => mInfo;
 

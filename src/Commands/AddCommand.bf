@@ -9,7 +9,7 @@ namespace Grill.Commands
 	[Reflect, AlwaysInclude(AssumeInstantiated=true, IncludeAllMethods=true)]
 	public class AddCommand : ICommand
 	{
-		private static CommandInfo mInfo =
+		private CommandInfo mInfo =
 			new CommandInfo("install")
 				.About("Adds package(s) to a workspace")
 				.Option(

@@ -28,6 +28,8 @@ namespace Grill
 				"""
 			);
 
+			Git.Init();
+
 			Config.Load();
 			InstalledPackages.LoadPackageList();
 

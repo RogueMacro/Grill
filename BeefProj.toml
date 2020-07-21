@@ -62,8 +62,8 @@ PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 BeefLibType = "Static"
 BuildCommandsOnCompile = "Never"
 BuildCommandsOnRun = "Never"
-PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y"]
-DebugCommandArguments = "install mypackage --verbose"
+PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y", "del /F/Q/S \"$(TargetDir)/Packages\" >NUL"]
+DebugCommandArguments = "install mypackage --debug"
 PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS", "DEBUG"]
 
 [Configs."grill install".Win32]

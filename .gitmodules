@@ -1,6 +1,6 @@
 [submodule "libs/beef-toml"]
 	path = libs/beef-toml
-	url = https://github.com/killamaaki/beef-toml
+	url = https://github.com/RogueMacro/beef-toml
 [submodule "libs/CowieCLI"]
 	path = libs/CowieCLI
 	url = https://github.com/RogueMacro/CowieCLI

@@ -62,7 +62,7 @@ PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 BeefLibType = "Static"
 BuildCommandsOnCompile = "IfFilesChanged"
 BuildCommandsOnRun = "Never"
-PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y", "del /F/Q/S \"$(TargetDir)/Packages\" >NULL", "echo test"]
+PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y", "del /F/Q/S \"$(TargetDir)/Packages\" >NULL"]
 DebugCommandArguments = "install mypackage --debug"
 PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS", "DEBUG"]
 

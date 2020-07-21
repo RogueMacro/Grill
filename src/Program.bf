@@ -36,7 +36,14 @@ namespace Grill
 			CowieCLI.RegisterCommand<InstallCommand>("install");
 			CowieCLI.RegisterCommand<AddCommand>("add");
 
-			CowieCLI.Run(args);
+			if (args.Count != 0)
+			{
+				CowieCLI.Run(args);
+			}
+			else
+			{
+				CowieCLI.Help();
+			}
 		}
 	}
 }

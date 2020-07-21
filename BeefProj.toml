@@ -60,14 +60,15 @@ PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 
 [Configs."grill install".Win64]
 BeefLibType = "Static"
-BuildCommandsOnCompile = "Never"
+BuildCommandsOnCompile = "IfFilesChanged"
 BuildCommandsOnRun = "Never"
-PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y", "del /F/Q/S \"$(TargetDir)/Packages\" >NUL"]
+PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y", "del /F/Q/S \"$(TargetDir)/Packages\" >NULL", "echo test"]
 DebugCommandArguments = "install mypackage --debug"
 PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS", "DEBUG"]
 
 [Configs."grill install".Win32]
 BeefLibType = "Static"
+PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /y", "del /F/Q/S \"$(TargetDir)/Packages\" >NULL"]
 PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 
 [Configs."grill --help".Win64]

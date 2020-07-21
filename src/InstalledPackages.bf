@@ -51,6 +51,9 @@ namespace Grill
 
 		public static void ClearCache()
 		{
+			if (!Directory.Exists(GrillPath.CacheDirectory))
+				return;
+
 			for (var dir in Directory.EnumerateDirectories(GrillPath.CacheDirectory))
 			{
 				var dirPath = scope String();

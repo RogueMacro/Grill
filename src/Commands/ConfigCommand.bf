@@ -6,7 +6,7 @@ namespace Grill.Commands
 	[Reflect, AlwaysInclude(AssumeInstantiated=true, IncludeAllMethods=true)]
 	public class ConfigCommand : ICommand
 	{
-		private static CommandInfo mInfo =
+		private CommandInfo mInfo =
 			new CommandInfo("config")
 				.About("Edit grill config")
 				.Option(

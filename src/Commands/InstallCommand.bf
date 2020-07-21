@@ -5,6 +5,7 @@ using System.IO;
 using System.Collections;
 using JetFistGames.Toml;
 using Grill.Utility;
+using CowieCLI;
 
 namespace Grill.Commands
 {
@@ -34,18 +35,21 @@ namespace Grill.Commands
 			int dependenciesIndex = Packages.Count;
 			int currentIndex = -1;
 
+
+			var cachePath = scope String();
+			if (Local)
+				Path.InternalCombine(cachePath, "Packages", "Cache");
+			else
+				cachePath.Set(GrillPath.CacheDirectory);
+
 			for (var package in Packages)
 			{
 				currentIndex++;
 
-				var cachePath = scope String();
-				if (Local)
-					Path.InternalCombine(cachePath, "Packages", "Cache");
-				else
-					cachePath.Set(GrillPath.CacheDirectory);
+				CowieCLI.Print(.Cyan, CowieCLI.CurrentVerbosity == .Debug, "[Info] Installing {}", package);
 
-				CowieCLI.Print(.Cyan, false, "[Info] Installing {}", package);
-				
+				InstalledPackages.ClearCache();
+
 				var url = scope String();
 				if (package.IsUrl)
 					url.Set(package);
@@ -59,7 +63,11 @@ namespace Grill.Commands
 				}	
 				else
 				{
-					Console.Write("\r");
+					if (CowieCLI.CurrentVerbosity == .Debug)
+						Console.WriteLine();
+					else
+						Console.Write("\r");
+
 					CowieCLI.Error("Could not install {}", package);
 					continue;
 				}	
@@ -68,7 +76,17 @@ namespace Grill.Commands
 				Path.InternalCombine(packageFilePath, cachePath, "Package.toml");
 				if (!File.Exists(packageFilePath))
 				{
-					 
+					var librarySelector = scope SmartLibrarySelector(cachePath);
+					var libraryName = scope String();
+					librarySelector.GetLibraryName(libraryName);
+
+					var dirPath = scope String();
+					IO.Path.GetDirectoryPath(cachePath, dirPath);
+
+					var newPath = scope String(dirPath);
+					Path.InternalCombine(newPath, libraryName);
+					Directory.Move(cachePath, newPath);
+					continue;
 				}
 
 				var packageFile = scope Package();

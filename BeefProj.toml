@@ -60,9 +60,8 @@ PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 
 [Configs."grill install".Win64]
 BeefLibType = "Static"
-BuildCommandsOnCompile = "Never"
 BuildCommandsOnRun = "Never"
-PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y", "del /F/Q/S \"$(TargetDir)/Packages\" >NUL"]
+PostBuildCmds = ["if not exist \"$(TargetDir)/Git\" ( xcopy \"$(ProjectDir)\\bin\" \"$(TargetDir)\" /e /c /i /q /y )", "del /F/Q/S \"$(TargetDir)/Packages\" >NUL"]
 DebugCommandArguments = "install mypackage --debug"
 PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS", "DEBUG"]
 

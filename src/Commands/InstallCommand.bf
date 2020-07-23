@@ -35,7 +35,6 @@ namespace Grill.Commands
 			int dependenciesIndex = Packages.Count;
 			int currentIndex = -1;
 
-
 			var cachePath = scope String();
 			if (Local)
 				Path.InternalCombine(cachePath, "Packages", "Cache");

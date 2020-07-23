@@ -21,8 +21,8 @@ namespace Grill.Utility
 			Path.InternalCombine(rootFilePath, LibraryPath, "BeefProj.toml");
 			if (File.Exists(rootFilePath))
 			{
-				var project = scope Project();
-				var result = TomlSerializer.ReadFile(rootFilePath, project);
+				var projectFile = scope ProjectFile();
+				var result = TomlSerializer.ReadFile(rootFilePath, projectFile);
 
 				if (result case .Err(let err))
 				{
@@ -30,11 +30,11 @@ namespace Grill.Utility
 					return;
 				}
 
-				buffer.Append((String) project.Name);
+				buffer.Append((String) projectFile.Project.Name);
 				return;
 			}
 
-			var libraryProjects = scope List<Project>();
+			var libraryProjects = scope List<ProjectFile>();
 
 			for (var dir in Directory.EnumerateDirectories(LibraryPath))
 			{
@@ -46,7 +46,7 @@ namespace Grill.Utility
 				if (!File.Exists(filePath))
 					continue;
 
-				var project = scope:: Project();
+				var project = scope:: ProjectFile();
 				var result = TomlSerializer.ReadFile(filePath, project);
 
 				if (result case .Err(let err))
@@ -55,7 +55,7 @@ namespace Grill.Utility
 					continue;
 				}
 
-				if (!project.Project.ContainsKey("TargetType"))
+				if (project.Project.TargetType == "")
 					libraryProjects.Add(project);
 			}
 
@@ -69,12 +69,12 @@ namespace Grill.Utility
 						continue;
 
 					// A project is dependent on this project
-					if (project.Dependencies.ContainsKey(projectToCheck.Name))
+					if (project.Dependencies.ContainsKey(projectToCheck.Project.Name))
 						continue ProjectLoop;
 				}
 
 				// No projects were dependent on this project a.k.a. it is at the top of the dependency tree
-				buffer.Append(projectToCheck.Name);
+				buffer.Append(projectToCheck.Project.Name);
 				return;
 			}	
 		}

@@ -1,5 +1,0 @@
-[http]
-	sslBackend = openssl
-	sslcainfo = \\mingw64\\ssl\\certs\\ca-bundle.crt
-[credential]
-	helper = manager

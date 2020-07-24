@@ -45,6 +45,14 @@ namespace Grill.Commands
 			{
 				currentIndex++;
 
+				if (InstalledPackages.ContainsPackage(package))
+				{
+					if (currentIndex < dependenciesIndex)
+						CowieCLI.Warning("{} is already installed", package);
+
+					continue;
+				}
+
 				CowieCLI.Print(.Cyan, CowieCLI.CurrentVerbosity == .Debug, "[Info] Installing {}", package);
 
 				InstalledPackages.ClearCache();
@@ -78,6 +86,14 @@ namespace Grill.Commands
 					var librarySelector = scope SmartLibrarySelector(cachePath);
 					var libraryName = scope String();
 					librarySelector.GetLibraryName(libraryName);
+
+					if (libraryName == "")
+					{
+						var enumerator = package.Split('/');
+						for (var str in enumerator)
+							if (!enumerator.HasMore)
+								libraryName.Set(str);
+					}
 
 					var dirPath = scope String();
 					IO.Path.GetDirectoryPath(cachePath, dirPath);

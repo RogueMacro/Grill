@@ -5,3 +5,9 @@
 	path = libs/CowieCLI
 	url = https://github.com/RogueMacro/CowieCLI
 	branch = master
+[submodule "libs/json"]
+	path = libs/json
+	url = https://github.com/Jonathan-Racaud/JSON_Beef
+[submodule "libs/BeefExtensions"]
+	path = libs/BeefExtensions
+	url = https://github.com/Jonathan-Racaud/Beef-Extensions-Lib

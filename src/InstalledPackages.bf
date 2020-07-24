@@ -68,5 +68,13 @@ namespace Grill
 				File.Delete(filePath);
 			}
 		}
+
+		public static bool ContainsPackage(StringView name)
+		{
+			for (var package in mPackages)
+				if (package == name)
+					return true;
+			return false;
+		}
 	}
 }

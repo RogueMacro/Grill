@@ -1,5 +1,5 @@
 FileVersion = 1
-Dependencies = {corlib = "*", BeefToml = "*", CowieCLI = "*"}
+Dependencies = {corlib = "*", BeefToml = "*", CowieCLI = "*", JSON_Beef = "*"}
 
 [Project]
 Name = "Grill"
@@ -11,36 +11,28 @@ ProductVersion = "0.0.1"
 
 [Configs.Debug.Win64]
 BeefLibType = "Static"
-BuildCommandsOnCompile = "Never"
-BuildCommandsOnRun = "Never"
-PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y"]
+PostBuildCmds = ["if not exist \"$(TargetDir)/Git\" ( xcopy \"$(ProjectDir)\\bin\" \"$(TargetDir)\" /e /c /i /q /y )", "del /F/Q/S \"$(TargetDir)\\Packages\"", "rmdir /q /s \"$(TargetDir)\\Packages\""]
 PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 
 [Configs.Debug.Win32]
 PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 
 [Configs.Release.Win64]
-BuildCommandsOnCompile = "Never"
-BuildCommandsOnRun = "Never"
-PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y"]
+PostBuildCmds = ["if not exist \"$(TargetDir)/Git\" ( xcopy \"$(ProjectDir)\\bin\" \"$(TargetDir)\" /e /c /i /q /y )", "del /F/Q/S \"$(TargetDir)\\Packages\"", "rmdir /q /s \"$(TargetDir)\\Packages\""]
 PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 
 [Configs.Release.Win32]
 PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 
 [Configs.Paranoid.Win64]
-BuildCommandsOnCompile = "Never"
-BuildCommandsOnRun = "Never"
-PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y"]
+PostBuildCmds = ["if not exist \"$(TargetDir)/Git\" ( xcopy \"$(ProjectDir)\\bin\" \"$(TargetDir)\" /e /c /i /q /y )", "del /F/Q/S \"$(TargetDir)\\Packages\"", "rmdir /q /s \"$(TargetDir)\\Packages\""]
 PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 
 [Configs.Paranoid.Win32]
 PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 
 [Configs.Test.Win64]
-BuildCommandsOnCompile = "Never"
-BuildCommandsOnRun = "Never"
-PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y"]
+PostBuildCmds = ["if not exist \"$(TargetDir)/Git\" ( xcopy \"$(ProjectDir)\\bin\" \"$(TargetDir)\" /e /c /i /q /y )", "del /F/Q/S \"$(TargetDir)\\Packages\"", "rmdir /q /s \"$(TargetDir)\\Packages\""]
 PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 
 [Configs.Test.Win32]
@@ -48,9 +40,7 @@ PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 
 [Configs."grill add".Win64]
 BeefLibType = "Static"
-BuildCommandsOnCompile = "Never"
-BuildCommandsOnRun = "Never"
-PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y"]
+PostBuildCmds = ["if not exist \"$(TargetDir)/Git\" ( xcopy \"$(ProjectDir)\\bin\" \"$(TargetDir)\" /e /c /i /q /y )", "del /F/Q/S \"$(TargetDir)\\Packages\"", "rmdir /q /s \"$(TargetDir)\\Packages\""]
 DebugCommandArguments = "add steak.logging -debug"
 PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 
@@ -60,8 +50,7 @@ PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 
 [Configs."grill install".Win64]
 BeefLibType = "Static"
-BuildCommandsOnRun = "Never"
-PostBuildCmds = ["if not exist \"$(TargetDir)/Git\" ( xcopy \"$(ProjectDir)\\bin\" \"$(TargetDir)\" /e /c /i /q /y )", "del /F/Q/S \"$(TargetDir)/Packages\" >NUL"]
+PostBuildCmds = ["if not exist \"$(TargetDir)/Git\" ( xcopy \"$(ProjectDir)\\bin\" \"$(TargetDir)\" /e /c /i /q /y )", "if exist \"$(TargetDir)\\Packages\" ( del /f /q /s \"$(TargetDir)\\Packages\" >NUL )", "if exist \"$(TargetDir)\\Packages\" ( rmdir /q /s \"$(TargetDir)\\Packages\" )"]
 DebugCommandArguments = "install mypackage --debug"
 PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS", "DEBUG"]
 
@@ -71,9 +60,7 @@ PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 
 [Configs."grill --help".Win64]
 BeefLibType = "Static"
-BuildCommandsOnCompile = "Never"
-BuildCommandsOnRun = "Never"
-PostBuildCmds = ["xcopy \"$(ProjectDir)/bin\" \"$(TargetDir)\" /e /c /i /q /y"]
+PostBuildCmds = ["if not exist \"$(TargetDir)/Git\" ( xcopy \"$(ProjectDir)\\bin\" \"$(TargetDir)\" /e /c /i /q /y )", "del /F/Q/S \"$(TargetDir)\\Packages\"", "rmdir /q /s \"$(TargetDir)\\Packages\""]
 PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 
 [Configs."grill --help".Win32]

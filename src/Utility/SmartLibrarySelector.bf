@@ -30,7 +30,7 @@ namespace Grill.Utility
 					return;
 				}
 
-				buffer.Append((String) projectFile.Project.Name);
+				buffer.Append(projectFile.Project.Name);
 				return;
 			}
 

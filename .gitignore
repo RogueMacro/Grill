@@ -1,2 +1,4 @@
 build/
+bin/Grill.exe
+bin/Config.toml
 BeefSpace_User.toml

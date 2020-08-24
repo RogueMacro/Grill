@@ -1,5 +1,5 @@
 FileVersion = 1
-Projects = {Grill = {Path = "."}, BeefToml = {Path = "libs/beef-toml/lib"}, CowieCLI = {Path = "libs/CowieCLI"}, JSON_Beef = {Path = "libs/json/lib"}, BeefExtensionsLib = {Path = "libs/BeefExtensions"}}
+Projects = {Grill = {Path = "."}, BeefToml = {Path = "libs/beef-toml/lib"}, CowieCLI = {Path = "libs/CowieCLI"}}
 
 [Workspace]
 StartupProject = "Grill"
@@ -18,3 +18,9 @@ ConfigSelections = {BeefToml = {Config = "Debug"}}
 
 [Configs.Release.Win64]
 AllocType = "Debug"
+
+[Configs."grill init".Win64]
+ConfigSelections = {Grill = {Config = "Debug"}, BeefToml = {Config = "Debug"}, CowieCLI = {Config = "Debug"}, corlib = {Config = "Debug"}}
+
+[Configs."grill init".Win32]
+ConfigSelections = {Grill = {Config = "Debug"}, BeefToml = {Config = "Debug"}, CowieCLI = {Config = "Debug"}, corlib = {Config = "Debug"}}

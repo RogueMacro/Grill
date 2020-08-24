@@ -33,6 +33,7 @@ namespace Grill
 			Config.Load();
 			InstalledPackages.LoadPackageList();
 
+			CowieCLI.RegisterCommand<InitCommand>("init");
 			CowieCLI.RegisterCommand<InstallCommand>("install");
 			CowieCLI.RegisterCommand<AddCommand>("add");
 

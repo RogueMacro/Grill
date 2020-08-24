@@ -1,5 +1,5 @@
 FileVersion = 1
-Dependencies = {corlib = "*", BeefToml = "*", CowieCLI = "*", JSON_Beef = "*"}
+Dependencies = {corlib = "*", BeefToml = "*", CowieCLI = "*"}
 
 [Project]
 Name = "Grill"
@@ -13,6 +13,7 @@ ProductVersion = "0.0.1"
 BeefLibType = "Static"
 PostBuildCmds = ["xcopy $(TargetDir)\\$(ProjectName).exe $(ProjectDir)\\bin /y"]
 DebugCommand = "$(ProjectDir)\\bin\\$(ProjectName).exe"
+DebugCommandArguments = "init"
 PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 
 [Configs.Debug.Win32]

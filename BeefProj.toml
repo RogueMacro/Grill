@@ -13,7 +13,7 @@ ProductVersion = "0.0.1"
 BeefLibType = "Static"
 PostBuildCmds = ["xcopy $(TargetDir)\\$(ProjectName).exe $(ProjectDir)\\bin /y"]
 DebugCommand = "$(ProjectDir)\\bin\\$(ProjectName).exe"
-DebugCommandArguments = "init"
+DebugCommandArguments = "init Test"
 PreprocessorMacros = ["GRILL_PLATFORM_WINDOWS"]
 
 [Configs.Debug.Win32]

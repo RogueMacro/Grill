@@ -17,7 +17,7 @@ namespace Grill.Commands
 				.About("Install Beef package(s)")
 				.Option(
 					new CommandOption("packages", "The package(s) to install")
-					.Required()
+					.List()
 				)
 				.Option(
 					new CommandOption("local", "Install the package(s) only to this project")
@@ -30,7 +30,7 @@ namespace Grill.Commands
 		public List<String> Packages ~ DeleteContainerAndItems!(_);
 		public bool Local;
 
-		public override void Execute()
+		public override int Execute()
 		{
 			int dependenciesIndex = Packages.Count;
 			int currentIndex = -1;
@@ -132,6 +132,8 @@ namespace Grill.Commands
 				for (var dep in packageFile.Dependencies.Values)
 					Packages.Add(new String((String) dep));
 			}
+
+			return 0;
 		}
 	}
 }

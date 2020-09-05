@@ -14,10 +14,11 @@ namespace Grill.Commands
 				.About("Adds package(s) to a workspace")
 				.Option(
 					new CommandOption("packages", "Package(s) to add")
-					.Required()
+					.List()
 				)
 				.Option(
 					new CommandOption("path", "Relative path to the workspace")
+					.Optional()
 				)
 			~ delete _;
 
@@ -26,7 +27,7 @@ namespace Grill.Commands
 		public List<String> Packages ~ DeleteContainerAndItems!(_);
 		public String Path;
 
-		public override void Execute()
+		public override int Execute()
 		{
 			// Read workspace file
 			
@@ -111,6 +112,7 @@ namespace Grill.Commands
 			File.WriteAllText(projectFilePath, serializedProject);
 
 			delete workspace;
+			return 0;
 		}
 
 		private mixin ReadTomlFile(StringView path, TomlTableNode doc)
@@ -120,7 +122,7 @@ namespace Grill.Commands
 				var filename = scope String();
 				IO.Path.GetFileName(path, filename);
 				CowieCLI.Error("Could not find TOML file: '{}'", filename);
-				return;
+				return 1;
 			}
 
 			var workspaceFile = scope String();
@@ -128,7 +130,7 @@ namespace Grill.Commands
 			if (fileResult case .Err(let err))
 			{
 				CowieCLI.Error("Could not read '{}': {}", path, err);
-				return;
+				return 2;
 			}
 
 			let tomlResult = TomlSerializer.Read(workspaceFile);
@@ -137,7 +139,7 @@ namespace Grill.Commands
 				var filename = scope String();
 				IO.Path.GetFileName(path, filename);
 				CowieCLI.Error("Error while parsing '{}': {}", filename, err);
-				return;
+				return 3;
 			}
 
 			doc = (.) tomlResult.Get();

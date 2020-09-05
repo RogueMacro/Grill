@@ -17,17 +17,41 @@ namespace Grill.Commands
 				)
 				.Option(
 					new CommandOption("location", "The location where to install the package")
+					.Optional()
 				)
 			 ~ delete _;
 		public override CommandInfo Info => mInfo;
 
-		public String Name = default(String) ~ delete (_);
-		public String Location = default(String) ~ delete (_);
+		public String Name;
+		public String Location;
 
-		public override void Execute()
+		public ~this()
+		{
+			if (Name != null)
+			{
+				delete Name;
+			}
+
+			if (Location != null)
+			{
+				delete Location;
+			}
+		}
+
+		public override int Execute()
 		{
 			var beefBuildExec = scope String("BeefBuild");
 			var beefBuildArgs = scope String("-new -generate");
+
+			if (Location == null)
+			{
+				Location = new String();
+			}
+
+			if (Name == null)
+			{
+				Name = new String();
+			}
 
 			if (Location.IsEmpty || Location.Equals("."))
 			{
@@ -48,7 +72,7 @@ namespace Grill.Commands
 				if (Directory.CreateDirectory(Location) case .Err(let err))
 				{
 					CowieCLI.Error("Couldn't create project's directory at {}", Location);
-					return;
+					return 1;
 				}
 			}
 
@@ -66,6 +90,8 @@ namespace Grill.Commands
 			}
 
 			beefBuildProcess.Close();
+
+			return 0;
 		}
 	}
 }

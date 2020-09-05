@@ -13,31 +13,18 @@ namespace Grill
 	{
 		static void Main(String[] args)
 		{
-			CowieCLI.Init(
-				"""
-				Beef Package Manager
-	
-				USAGE:
-				    grill <command> [options]
-	
-				OPTIONS:
-				    -V, --version   Show the current version of Grill
-				    -v, --verbose   Use verbose output
-				        --list      List all commands
-				    -q, --quiet     Disable output
-				"""
-			);
+			var cli = scope CowieCLI("Grill", "The Beeflang package manager");
 
 			Git.Init();
 
 			Config.Load();
 			InstalledPackages.LoadPackageList();
 
-			CowieCLI.RegisterCommand<InitCommand>("init");
-			CowieCLI.RegisterCommand<InstallCommand>("install");
-			CowieCLI.RegisterCommand<AddCommand>("add");
+			cli.RegisterCommand<InitCommand>("init");
+			cli.RegisterCommand<InstallCommand>("install");
+			cli.RegisterCommand<AddCommand>("add");
 
-			CowieCLI.Run(args);
+			cli.Run(args);
 		}
 	}
 }

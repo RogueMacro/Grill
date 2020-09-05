@@ -4,23 +4,23 @@ Projects = {Grill = {Path = "."}, BeefToml = {Path = "libs/beef-toml/lib"}, Cowi
 [Workspace]
 StartupProject = "Grill"
 
-[Configs."grill add".Win32]
-ConfigSelections = {Grill = {Config = "Debug"}}
-
-[Configs."grill install".Win32]
-ConfigSelections = {Grill = {Config = "Debug"}}
-
 [Configs."grill --help".Win32]
 ConfigSelections = {Grill = {Config = "Debug"}, BeefToml = {Config = "grill add"}}
 
 [Configs."grill --help".Win64]
 ConfigSelections = {BeefToml = {Config = "Debug"}}
 
+[Configs."grill add".Win32]
+ConfigSelections = {Grill = {Config = "Debug"}}
+
+[Configs.grill_init.Win64]
+ConfigSelections = {Grill = {Config = "Debug"}, BeefToml = {Config = "Debug"}, CowieCLI = {Config = "Debug"}, corlib = {Config = "grill init"}}
+
+[Configs.grill_init.Win32]
+ConfigSelections = {Grill = {Config = "Debug"}, BeefToml = {Config = "Debug"}, CowieCLI = {Config = "Debug"}}
+
+[Configs."grill install".Win32]
+ConfigSelections = {Grill = {Config = "Debug"}}
+
 [Configs.Release.Win64]
 AllocType = "Debug"
-
-[Configs."grill init".Win64]
-ConfigSelections = {Grill = {Config = "Debug"}, BeefToml = {Config = "Debug"}, CowieCLI = {Config = "Debug"}, corlib = {Config = "Debug"}}
-
-[Configs."grill init".Win32]
-ConfigSelections = {Grill = {Config = "Debug"}, BeefToml = {Config = "Debug"}, CowieCLI = {Config = "Debug"}, corlib = {Config = "Debug"}}

@@ -24,9 +24,9 @@ namespace Grill.Commands
 
 		public String Override ~ delete _;
 
-		public override void Execute()
+		public override int Execute()
 		{
-
+			return 0;
 		}
 	}
 }
